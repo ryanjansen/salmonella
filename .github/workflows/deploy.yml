@@ -13,4 +13,6 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: ~/salmonella/deploy.sh
+          script: |
+            cd ~/salmonella
+            echo ${{ secrets.SSH_PASSWORD }} | sudo -S ./deploy.sh
