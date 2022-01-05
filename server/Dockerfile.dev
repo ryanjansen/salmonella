@@ -1,0 +1,11 @@
+FROM node:alpine
+
+WORKDIR /usr/src/app/server
+
+COPy package*.json ./
+
+RUN npm i
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]
