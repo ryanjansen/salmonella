@@ -19,7 +19,7 @@ function App() {
           Edit <code>src/App.jsx</code> and die to reload.
         </p>
         <p>
-          Page has been open for <code>{count}</code> seconds.
+          Page has been open for <code>{count}</code> years.
         </p>
         <p>
           <a
