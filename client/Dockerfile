@@ -9,7 +9,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY package-lock.json ./
 
-COPY --chown=node:node . .
+COPY . .
 
 RUN npm install && npm run build
 
