@@ -5,11 +5,11 @@ import { TextEditor } from "./TextEditor";
 export const Editor = ({selected, getAttribute, setAttribute}) => {
     const renderEditor = (type) => {
         switch (type) {
-            case "Text":
+            case "text":
                 return <TextEditor getAttribute={getAttribute} setAttribute={setAttribute}/>
-            case "Equation":
+            case "equation":
                 return <EquationEditor />
-            case "Shape":
+            case "shape":
                 return "PLACEHOLDER" 
             default:
                 return "WRONG" 

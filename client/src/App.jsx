@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Canvas from "./Canvas";
-import Draw from "./components/Draw";
 import Toolbar from "./components/Toolbar";
 import { Editor } from "./components/Editor";
 import { defaultText, defaultEquation } from "./DefaultComponents";
