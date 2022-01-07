@@ -14,7 +14,7 @@ RUN npm install --silent
 USER node
 COPY --chown=node:node . .
 
-EXPOSE 8080
+EXPOSE 3000
 
 # start app
 CMD ["npm", "start"]
