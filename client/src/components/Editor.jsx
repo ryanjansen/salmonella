@@ -26,17 +26,24 @@ export const Editor = ({ selected, getAttribute, setAttribute }) => {
 
   return (
     <div className={styles.editor}>
-      Currently Selected Component:
-      <div>
-        ID: {selected}
-        <br></br>
-        TYPE: {getAttribute("type")}
-        <br></br>
-        POSITION-X: {getAttribute("x")}
-        <br></br>
-        POSITION-Y: {getAttribute("y")}
-      </div>
-      {renderEditor(getAttribute("type"))}
+      {selected == 0 ? (
+        <div>Select a component to edit</div>
+      ) : (
+        <>
+          <b>Attributes:</b>
+          <div>
+            Id: {selected}
+            <br></br>
+            Type: {getAttribute("type")}
+            <br></br>
+            Position-X: {getAttribute("x").toFixed(2)}
+            <br></br>
+            Position-Y: {getAttribute("y").toFixed(2)}
+          </div>
+          <br />
+          {renderEditor(getAttribute("type"))}
+        </>
+      )}
     </div>
   );
 };

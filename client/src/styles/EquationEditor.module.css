@@ -1,0 +1,4 @@
+.equationeditor {
+  display: flex;
+  flex-direction: column;
+}
