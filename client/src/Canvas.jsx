@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Stage, Layer, Text, Line } from 'react-konva';
 import {
   getDistance,
@@ -139,10 +139,13 @@ function Canvas({
 
   // Drawing
   const [tool, setTool] = React.useState('pen');
-  const [lines, setlines] = React.useState([]);
+  const [lines, setlines] = React.useState(JSON.parse(localStorage.getItem('lines')) ?? []);
   const [width, setWidth] = React.useState(7);
   const [color, setColor] = React.useState('#df4b26');
   const isDrawing = React.useRef(false);
+  useEffect(()=> {
+    localStorage.setItem('lines', JSON.stringify(lines));
+  })
 
   function getRelativePointerPosition(node) {
     // the function will return pointer position relative to the passed node
