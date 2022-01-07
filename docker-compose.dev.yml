@@ -14,7 +14,6 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./server:/usr/src/app/server
-      - /usr/src/app/server/node_modules
       
   client:
     build:
@@ -24,7 +23,6 @@ services:
       - 8080:8080
     volumes:
       - ./client:/usr/src/app/client
-      - /usr/src/app/client/node_modules
 
 volumes:
   pg_data:
