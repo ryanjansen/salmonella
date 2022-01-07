@@ -17,9 +17,17 @@ export const TextComponent = (props) => {
 
     return (
         <Text 
+            text={props.text}
+            x={props.x}
+            y={props.y}
+            
+        />
+        /*
+        <Text 
             text={att.text}
             x={att.x}
             y={att.y}
+            // Dragging
             draggable
             onDragStart={()=>{
                 const newatt = Object.assign({}, att);
@@ -34,6 +42,7 @@ export const TextComponent = (props) => {
                 console.log(newatt.x);
                 setatt(newatt);
             }}
+            // 
             onMouseDown={()=> {
                 const newatt = Object.assign({}, att);
                 newatt.fontStyle = newatt.fontStyle == "normal" ? "bold" : "normal";
@@ -45,5 +54,6 @@ export const TextComponent = (props) => {
             textDecoration={att.textDecoration}
             fill={att.fill}
         />
+        */
     );
 }

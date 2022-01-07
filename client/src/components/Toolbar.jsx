@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-function Toolbar({ tools, setSelectedTools }) {
+function Toolbar({ tools, setComponents }) {
   return (
     <div style={{ position: 'fixed', top: 0, left: 0 }}>
       {tools.map((tool, index) => (
         <div
           key={index}
           onClick={() => {
-            setSelectedTools(tool);
+            setComponents(tool);
           }}
         >
           {tool.icon}
