@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import { Stage, Layer, Rect, Text } from 'react-konva';
 import Konva from 'konva';
+import Draw from './components/Draw';
 
-function Canvas() {
+function Canvas({ selectedTools }) {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
-      <Layer>
-        <Rect
-          x={20}
-          y={20}
-          width={50}
-          height={50}
-          fill={Konva.Util.getRandomColor()}
-        />
-      </Layer>
+      <Layer>{selectedTools.map((tool) => tool.component)}</Layer>
     </Stage>
   );
 }
