@@ -64,6 +64,8 @@ function App() {
         newComponents[id] = Object.assign({}, defaultEquation);
         break;
     }
+    // Focus new component
+    setSelected(id);
     setComponents(newComponents);
   };
 
