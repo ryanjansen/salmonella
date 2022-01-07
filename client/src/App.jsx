@@ -1,39 +1,16 @@
-import React, { useState, useEffect } from "react";
-import Canvas from "./Canvas";
-import Draw from "./components/Draw";
-import Toolbar from "./components/Toolbar";
-import { Editor } from "./components/Editor";
-import { defaultText, defaultEquation } from "./DefaultComponents";
+import React, { useState, useEffect } from 'react';
+import Canvas from './Canvas';
+import Toolbar from './components/Toolbar';
+import { Editor } from './components/Editor';
+import { defaultText, defaultEquation } from './DefaultComponents';
 
 function App() {
   const [tools, setTools] = useState([
-    { icon: "Text", component: "text" },
-    { icon: "Equation", component: "equation" },
+    { icon: 'Text', component: 'text' },
+    { icon: 'Equation', component: 'equation' },
   ]);
   const [selected, setSelected] = useState(-1);
-  const [components, setComponents] = useState({
-    1: {
-      type: "text",
-      text: "First",
-      x: 50,
-      y: 100,
-      fontFamily: "Calibri",
-      fontSize: 28,
-    },
-    2: {
-      type: "text",
-      text: "testing",
-      x: 150,
-      y: 200,
-      textDecoration: "underline",
-    },
-    3: {
-      type: "equation",
-      latex: "x = y",
-      x: 300,
-      y: 400,
-    },
-  });
+  const [components, setComponents] = useState({});
 
   const generateRandomId = () => {
     let id = Math.floor(Math.random() * 10000);
@@ -57,11 +34,11 @@ function App() {
     const id = generateRandomId();
     const newComponents = { ...components };
     switch (type) {
-      case "text":
-        newComponents[id] = defaultText;
+      case 'text':
+        newComponents[id] = { ...defaultText };
         break;
-      case "equation":
-        newComponents[id] = defaultEquation;
+      case 'equation':
+        newComponents[id] = { ...defaultEquation };
         break;
     }
     setComponents(newComponents);
