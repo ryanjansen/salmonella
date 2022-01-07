@@ -319,13 +319,14 @@ function Canvas({
               }
             />
           ))}
+
+          <Video src="http://localhost:8000/static/SquareToCircle.mp4"/>
         </Layer>
       </Stage>
     </div>
   );
 }
 /*
-          <Video src="https://i.imgur.com/keWs2pk.mp4"/>
           
         </Layer>
         <DivideAnim />
