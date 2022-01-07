@@ -129,7 +129,7 @@ function Canvas({ components, setComponents, setSelected }) {
       <Layer>
         {Object.entries(components).map(([key, value]) => {
           switch (value.type) {
-            case "Text":
+            case "text":
               return (
                 <Text
                   // Mandatory - Key, Draggable
@@ -170,9 +170,9 @@ function Canvas({ components, setComponents, setSelected }) {
                   fill={value.fill != null ? value.fill : "black"}
                 />
               );
-            case "Equation":
+            case "equation":
               return <Text text="Wrong" />;
-            case "Image":
+            case "image":
               break;
           }
         })}
