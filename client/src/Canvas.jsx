@@ -7,6 +7,8 @@ import {
 } from './utils/StageZoomHandlers';
 import EquationImage from './components/Equation/EquationImage';
 import { DrawSettings } from './components/DrawSettings';
+import { DivideAnim } from './components/Animations/DivideAnim';
+import { Video } from './components/Animations/Video';
 
 const scaleBy = 1.04;
 
@@ -263,6 +265,7 @@ function Canvas({
           {Object.entries(components).map(([id, component]) => {
             return renderComponent(id, component);
           })}
+          <Text text="dwebug" onMouseDown = {(e)=> console.log(components)}/>
           {lines.map((line, i) => (
             <Line
               key={i}
@@ -276,10 +279,17 @@ function Canvas({
               }
             />
           ))}
+          
         </Layer>
       </Stage>
     </div>
   );
 }
-
+/*
+          <Video src="https://i.imgur.com/keWs2pk.mp4"/>
+          
+        </Layer>
+        <DivideAnim />
+*/
+      
 export default Canvas;
