@@ -152,7 +152,7 @@ function Canvas({ components, setComponents, setSelected }) {
                     newcomps.key = newtext;
                     setComponents(newcomps);
                   }}
-              onMouseDown={()=>setSelected(key)}
+              onDblClick={()=>setSelected(key)}
                   // Optionals
                   text={value.text != null ? value.text : ""}
                   x={value.x != null ? value.x : 100}
@@ -171,7 +171,7 @@ function Canvas({ components, setComponents, setSelected }) {
                 />
               );
             case "Equation":
-              return <Text text="Wrong" />;
+              break;
             case "Image":
               break;
           }
