@@ -56,7 +56,7 @@ function App() {
   });
 
   const deleteSelectedHandler = ({ key }) => {
-    if (["8", "Backspace", "127", "Del"].includes(String(key))) {
+    if (["46", "Delete"].includes(String(key))) {
       deleteSelectedComponent();
     }
   };
