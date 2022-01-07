@@ -56,8 +56,6 @@ function App() {
   });
 
   const deleteSelectedHandler = ({ key }) => {
-    console.log("ran");
-
     if (["8", "Backspace", "127", "Del"].includes(String(key))) {
       deleteSelectedComponent();
     }
@@ -104,8 +102,8 @@ function App() {
 
     const newComponents = { ...components };
     delete newComponents[`${selected}`];
-    setComponents(newComponents);
     setSelected(0);
+    setComponents(newComponents);
   };
 
   return (
