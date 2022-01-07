@@ -31,6 +31,21 @@ export const TextEditor = ({ getAttribute, setAttribute }) => {
                 return "italic"
         }
     }
+    const decbut = (type) => {
+        const current = getAttribute("textDecoration");
+        switch (current) {
+            case "":
+                return type;
+            case "underline":
+                return type.valueOf() === ("underline") ? "" : "underline line-through";
+            case "line-through":
+                return type.valueOf() === ("line-through") ? "" : "underline line-through";
+            case "underline line-through":
+                return type.valueOf() === ("underline") ? "line-through" : "underline";
+            default:
+                return type;
+        }
+    }
 
     return (
         <div>
@@ -48,6 +63,8 @@ export const TextEditor = ({ getAttribute, setAttribute }) => {
                 value={getAttribute("fontFamily") != null ? getAttribute("fontFamily") : "Arial"}
                 onChange={(e)=>setAttribute("fontFamily", e.target.value)}
             ></input>
+            <button onClick = {()=>setAttribute("textDecoration", decbut("underline"))}>UNDERLINE</button>
+            <button onClick = {()=>setAttribute("textDecoration", decbut("line-through"))}>STRIKETHROUGH</button>
 
         </div>
     )
