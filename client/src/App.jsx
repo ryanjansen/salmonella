@@ -39,35 +39,12 @@ function App() {
     }
   }, [])
   const [selected, setSelected] = useState(0);
-<<<<<<< HEAD
   const [components, setComponents] = useState(
     JSON.parse(localStorage.getItem('components')) ?? {0:{}}
   );
   useEffect(()=> {
     localStorage.setItem('components', JSON.stringify(components));
   })
-=======
-  const [components, setComponents] = useState({
-    0: {
-      // unselected
-    },
-    1: {
-      type: 'text',
-      text: 'First',
-      x: 50,
-      y: 100,
-      fontFamily: 'Calibri',
-      fontSize: 28,
-    },
-    2: {
-      type: 'text',
-      text: 'testing',
-      x: 150,
-      y: 200,
-      textDecoration: 'underline',
-    },
-  });
->>>>>>> d5a9467ae7f7304a48926262c4b9473bc9e326c0
 
   const deleteSelectedHandler = ({ key }) => {
     if (['46', 'Delete'].includes(String(key))) {

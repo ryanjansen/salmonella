@@ -7,13 +7,10 @@ import {
 } from './utils/StageZoomHandlers';
 import EquationImage from './components/Equation/EquationImage';
 import { DrawSettings } from './components/DrawSettings';
-<<<<<<< HEAD
 import { DivideAnim } from './components/Animations/DivideAnim';
 import { Video } from './components/Animations/Video';
-=======
 import Toolbar from './components/Toolbar';
 import styles from './styles/Canvas.module.css';
->>>>>>> d5a9467ae7f7304a48926262c4b9473bc9e326c0
 
 const scaleBy = 1.04;
 
