@@ -8,7 +8,12 @@ import {
 
 const scaleBy = 1.04;
 
-function Canvas({ components, setComponents, setSelected }) {
+function Canvas({
+  components,
+  setComponents,
+  setSelected,
+  unselectComponentHandler,
+}) {
   const stageRef = useRef(null);
   let lastCenter = null;
   let lastDist = 0;
@@ -110,6 +115,11 @@ function Canvas({ components, setComponents, setSelected }) {
       onTouchMove={handleTouch}
       onTouchEnd={handleTouchEnd}
       ref={stageRef}
+      onMouseDown={(e) => {
+        if (e.evt.defaultPrevented) return;
+        e.evt.preventDefault();
+        unselectComponentHandler();
+      }}
     >
       <Layer>
         {Object.entries(components).map(([key, value]) => {
@@ -137,7 +147,15 @@ function Canvas({ components, setComponents, setSelected }) {
                     newcomps.key = newtext;
                     setComponents(newcomps);
                   }}
-                  onDblClick={() => setSelected(key)}
+                  onMouseDown={(e) => {
+                    if (e.evt.defaultPrevented) return;
+                    e.evt.preventDefault();
+                  }}
+                  onDblClick={(e) => {
+                    if (e.evt.defaultPrevented) return;
+                    e.evt.preventDefault();
+                    setSelected(key);
+                  }}
                   // Optionals
                   text={value.text != null ? value.text : ""}
                   x={value.x != null ? value.x : 100}

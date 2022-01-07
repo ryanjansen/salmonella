@@ -1,9 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Canvas from "./Canvas";
-import Draw from "./components/Draw";
 import Toolbar from "./components/Toolbar";
 import { Editor } from "./components/Editor";
 import { defaultText, defaultEquation } from "./DefaultComponents";
+
+const useEventListener = (eventName, handler, element = window) => {
+  const savedHandler = useRef();
+
+  useEffect(() => {
+    savedHandler.current = handler;
+  }, [handler]);
+
+  useEffect(() => {
+    const eventListener = (event) => {
+      savedHandler.current(event);
+    };
+    element.addEventListener(eventName, eventListener);
+    return () => {
+      element.removeEventListener(eventName, eventListener);
+    };
+  }, [eventName, element]);
+};
 
 function App() {
   const [tools, setTools] = useState([
@@ -27,13 +44,23 @@ function App() {
       y: 200,
       textDecoration: "underline",
     },
-    3: {
-      type: "equation",
-      latex: "x = y",
-      x: 300,
-      y: 400,
-    },
+    // 3: {
+    //   type: "equation",
+    //   latex: "x = y",
+    //   x: 300,
+    //   y: 400,
+    // },
   });
+
+  const deleteSelectedHandler = ({ key }) => {
+    console.log("ran");
+
+    if (["8", "Backspace", "127", "Del"].includes(String(key))) {
+      deleteSelectedComponent();
+    }
+  };
+
+  useEventListener("keydown", deleteSelectedHandler);
 
   const generateRandomId = () => {
     let id = Math.floor(Math.random() * 10000);
@@ -67,6 +94,15 @@ function App() {
     setComponents(newComponents);
   };
 
+  const deleteSelectedComponent = () => {
+    if (selected == -1) return;
+
+    const newComponents = { ...components };
+    delete newComponents[`${selected}`];
+    setComponents(newComponents);
+    setSelected(-1);
+  };
+
   return (
     <>
       <Editor selected={selected} />
@@ -74,6 +110,7 @@ function App() {
         components={components}
         setComponents={setComponents}
         setSelected={setSelected}
+        unselectComponentHandler={() => setSelected(-1)}
       />
       <Toolbar
         tools={tools}
