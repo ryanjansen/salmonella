@@ -11,8 +11,6 @@ function EquationEditor({ setAttribute, getAttribute }) {
         setAttribute('latex', mathField.latex());
       }}
       id="equation-editor"
-      style={{ marginLeft: 300 }}
-      ref={ref}
     />
   );
 }

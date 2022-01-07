@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { Stage, Layer, Text } from 'react-konva';
-import TextComponent from './components/Text/TextComponent';
 import {
   getDistance,
   getCenter,
@@ -124,10 +123,10 @@ function Canvas({
     setComponents(newComponents);
   };
 
-  const onDblClick = (key) => {
+  const handleDblClick = (e) => {
     if (e.evt.defaultPrevented) return;
     e.evt.preventDefault();
-    setSelected(key);
+    setSelected(e.target.id());
   };
 
   const renderComponent = (id, component) => {
@@ -141,7 +140,7 @@ function Canvas({
             isDragging={false}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
-            onDblClick={() => onDblClick(id)}
+            onDblClick={handleDblClick}
             onMouseDown={(e) => {
               if (e.evt.defaultPrevented) return;
               e.evt.preventDefault();
