@@ -27,8 +27,11 @@ function App() {
     { icon: "Text", component: "text" },
     { icon: "Equation", component: "equation" },
   ]);
-  const [selected, setSelected] = useState(1);
+  const [selected, setSelected] = useState(0);
   const [components, setComponents] = useState({
+    0: {
+      // unselected
+    },
     1: {
       type: "text",
       text: "First",
@@ -71,7 +74,6 @@ function App() {
   };
 
   const getAttribute = (attribute) => {
-    console.log(components[selected]["type"]);
     return components[selected][attribute];
   };
 
@@ -96,22 +98,26 @@ function App() {
   };
 
   const deleteSelectedComponent = () => {
-    if (selected == -1) return;
+    if (selected == 0) return;
 
     const newComponents = { ...components };
     delete newComponents[`${selected}`];
     setComponents(newComponents);
-    setSelected(-1);
+    setSelected(0);
   };
 
   return (
     <>
-      <Editor selected={selected} getAttribute={getAttribute} setAttribute={setAttribute}/>
+      <Editor
+        selected={selected}
+        getAttribute={getAttribute}
+        setAttribute={setAttribute}
+      />
       <Canvas
         components={components}
         setComponents={setComponents}
         setSelected={setSelected}
-        unselectComponentHandler={() => setSelected(-1)}
+        unselectComponentHandler={() => setSelected(0)}
       />
       <Toolbar
         tools={tools}
