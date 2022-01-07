@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Stage, Layer, Text } from 'react-konva';
 
-function Draw() {
+function Draw(props) {
   const [isDragging, setIsDragging] = useState(false);
   const [x, setX] = useState(50);
   const [y, setY] = useState(50);
@@ -12,7 +12,7 @@ function Draw() {
       x={x}
       y={y}
       draggable
-      fill={isDragging ? 'green' : 'black'}
+      fill={isDragging ? props.fill : 'black'}
       onDragStart={() => {
         setIsDragging(true);
       }}
