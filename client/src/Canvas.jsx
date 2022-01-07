@@ -7,12 +7,19 @@ import {
 } from './utils/StageZoomHandlers';
 import EquationImage from './components/Equation/EquationImage';
 import { DrawSettings } from './components/DrawSettings';
+<<<<<<< HEAD
 import { DivideAnim } from './components/Animations/DivideAnim';
 import { Video } from './components/Animations/Video';
+=======
+import Toolbar from './components/Toolbar';
+import styles from './styles/Canvas.module.css';
+>>>>>>> d5a9467ae7f7304a48926262c4b9473bc9e326c0
 
 const scaleBy = 1.04;
 
 function Canvas({
+  tools,
+  addComponent,
   components,
   setComponents,
   setSelected,
@@ -134,10 +141,10 @@ function Canvas({
   };
 
   // Drawing
-  const [tool, setTool] = React.useState("pen");
+  const [tool, setTool] = React.useState('pen');
   const [lines, setlines] = React.useState([]);
-  const [width, setWidth] = React.useState(5);
-  const [color, setColor] = React.useState("#df4b26");
+  const [width, setWidth] = React.useState(7);
+  const [color, setColor] = React.useState('#df4b26');
   const isDrawing = React.useRef(false);
 
   function getRelativePointerPosition(node) {
@@ -188,7 +195,7 @@ function Canvas({
 
   const renderComponent = (id, component) => {
     switch (component.type) {
-      case "text":
+      case 'text':
         return (
           <Text
             key={id}
@@ -202,11 +209,11 @@ function Canvas({
             text={component.text ?? 'text'}
             x={component.x}
             y={component.y}
-            fontFamily={component.fontFamily ?? "Arial"}
+            fontFamily={component.fontFamily ?? 'Arial'}
             fontSize={component.fontSize ?? 12}
-            fontStyle={component.fontStyle ?? "normal"}
-            textDecoration={component.textDecoration ?? ""}
-            fill={component.fill ?? "black"}
+            fontStyle={component.fontStyle ?? 'normal'}
+            textDecoration={component.textDecoration ?? ''}
+            fill={component.fill ?? 'black'}
           />
         );
 
@@ -237,7 +244,9 @@ function Canvas({
 
   return (
     <div>
-      <DrawSettings
+      <Toolbar
+        tools={tools}
+        addComponent={addComponent}
         setDrawMode={setDrawMode}
         setlines={setlines}
         lines={lines}
@@ -250,6 +259,13 @@ function Canvas({
         color={color}
       />
       <Stage
+        className={`${
+          drawMode
+            ? tool === 'pen'
+              ? styles.penCursor
+              : styles.eraseCursor
+            : ''
+        }`}
         width={window.innerWidth}
         height={window.innerHeight}
         draggable={!isTouchEnabled() && !drawMode}
@@ -275,7 +291,7 @@ function Canvas({
               tension={0.5}
               lineCap="round"
               globalCompositeOperation={
-                line.tool === "eraser" ? "destination-out" : "source-over"
+                line.tool === 'eraser' ? 'destination-out' : 'source-over'
               }
             />
           ))}
