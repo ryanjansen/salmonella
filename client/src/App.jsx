@@ -58,10 +58,10 @@ function App() {
     const newComponents = { ...components };
     switch (type) {
       case "text":
-        newComponents[id] = defaultText;
+        newComponents[id] = Object.assign({}, defaultText);
         break;
       case "equation":
-        newComponents[id] = defaultEquation;
+        newComponents[id] = Object.assign({}, defaultEquation);
         break;
     }
     setComponents(newComponents);
