@@ -1,34 +1,19 @@
 import React, { useRef } from "react";
 import { Stage, Layer, Text } from "react-konva";
+import {
+  getDistance,
+  getCenter,
+  isTouchEnabled,
+} from "./utils/StageZoomHandlers";
 
 const scaleBy = 1.04;
-
-
-function getDistance(p1, p2) {
-  return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
-}
-
-function getCenter(p1, p2) {
-  return {
-    x: (p1.x + p2.x) / 2,
-    y: (p1.y + p2.y) / 2,
-  };
-}
-
-function isTouchEnabled() {
-  return (
-    "ontouchstart" in window ||
-    navigator.maxTouchPoints > 0 ||
-    navigator.msMaxTouchPoints > 0
-  );
-}
 
 function Canvas({ components, setComponents, setSelected }) {
   const stageRef = useRef(null);
   let lastCenter = null;
   let lastDist = 0;
 
-  function zoomStage(event) {
+  function zoomStage(event, stageRef) {
     event.evt.preventDefault();
     if (stageRef.current !== null) {
       const stage = stageRef.current;
@@ -121,7 +106,7 @@ function Canvas({ components, setComponents, setSelected }) {
       width={window.innerWidth}
       height={window.innerHeight}
       draggable={!isTouchEnabled()}
-      onWheel={zoomStage}
+      onWheel={(event) => zoomStage(event, stageRef)}
       onTouchMove={handleTouch}
       onTouchEnd={handleTouchEnd}
       ref={stageRef}
@@ -129,7 +114,7 @@ function Canvas({ components, setComponents, setSelected }) {
       <Layer>
         {Object.entries(components).map(([key, value]) => {
           switch (value.type) {
-            case "Text":
+            case "text":
               return (
                 <Text
                   // Mandatory - Key, Draggable
@@ -152,7 +137,7 @@ function Canvas({ components, setComponents, setSelected }) {
                     newcomps.key = newtext;
                     setComponents(newcomps);
                   }}
-              onDblClick={()=>setSelected(key)}
+                  onDblClick={() => setSelected(key)}
                   // Optionals
                   text={value.text != null ? value.text : ""}
                   x={value.x != null ? value.x : 100}
@@ -170,9 +155,9 @@ function Canvas({ components, setComponents, setSelected }) {
                   fill={value.fill != null ? value.fill : "black"}
                 />
               );
-            case "Equation":
-              break;
-            case "Image":
+            case "equation":
+              return <Text text="Wrong" />;
+            case "image":
               break;
           }
         })}
