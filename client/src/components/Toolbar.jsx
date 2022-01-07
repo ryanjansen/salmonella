@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import styles from '../styles/Toolbar.module.css';
-import DrawIcon from '../icons/editor-draw.png';
-import ClearIcon from '../icons/editor-clear.png';
-import UndoIcon from '../icons/editor-undo.png';
-import EraseIcon from '../icons/editor-erase.png';
-import PenIcon from '../icons/editor-pen.png';
-import ColorPicker from './ColorPicker';
+import React, { useState } from "react";
+import styles from "../styles/Toolbar.module.css";
+import DrawIcon from "../icons/editor-draw.png";
+import ClearIcon from "../icons/editor-clear.png";
+import UndoIcon from "../icons/editor-undo.png";
+import EraseIcon from "../icons/editor-erase.png";
+import PenIcon from "../icons/editor-pen.png";
+import ColorPicker from "./ColorPicker";
 
 function Toolbar({
   tools,
@@ -49,7 +49,7 @@ function Toolbar({
       <div onClick={() => setDrawMode(!drawMode)}>
         <img
           className={`${styles.toolbar__icon} ${
-            drawMode ? styles.toolbar__selected : ''
+            drawMode ? styles.toolbar__selected : ""
           }`}
           alt="draw icon"
           src={DrawIcon}
@@ -57,11 +57,11 @@ function Toolbar({
       </div>
       <div
         onClick={() => {
-          if (tool === 'pen') {
-            setTool('eraser');
+          if (tool === "pen") {
+            setTool("eraser");
             setWidth(30);
           } else {
-            setTool('pen');
+            setTool("pen");
             setWidth(7);
           }
         }}
@@ -69,11 +69,11 @@ function Toolbar({
         <img
           className={styles.toolbar__icon}
           alt="clear icon"
-          src={tool === 'pen' ? PenIcon : EraseIcon}
+          src={tool === "pen" ? PenIcon : EraseIcon}
         />
       </div>
 
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: "relative" }}>
         <div
           onClick={() => setShowColorPicker(!showColorPicker)}
           className={styles.colorInput}

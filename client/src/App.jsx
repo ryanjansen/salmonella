@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Canvas from './Canvas';
-import Toolbar from './components/Toolbar';
-import { Editor } from './components/Editor';
-import { defaultText, defaultEquation } from './DefaultComponents';
-import EditorTextIcon from './icons/editor-text.png';
-import EditorEquationIcon from './icons/editor-equation.png';
+import React, { useState, useEffect, useRef } from "react";
+import Canvas from "./Canvas";
+import Toolbar from "./components/Toolbar";
+import { Editor } from "./components/Editor";
+import { defaultText, defaultEquation } from "./DefaultComponents";
+import EditorTextIcon from "./icons/editor-text.png";
+import EditorEquationIcon from "./icons/editor-equation.png";
 
 const useEventListener = (eventName, handler, element = window) => {
   const savedHandler = useRef();
@@ -26,33 +26,34 @@ const useEventListener = (eventName, handler, element = window) => {
 
 function App() {
   const [tools, setTools] = useState([
-    { icon: EditorTextIcon, component: 'text' },
-    { icon: EditorEquationIcon, component: 'equation' },
+    { icon: EditorTextIcon, component: "text" },
+    { icon: EditorEquationIcon, component: "equation" },
   ]);
-  useEffect(()=> {
-    if (localStorage.getItem('components') === null) {
-      localStorage.setItem('components', JSON.stringify({
-        0: {
-
-        }
-      }))
+  useEffect(() => {
+    if (localStorage.getItem("components") === null) {
+      localStorage.setItem(
+        "components",
+        JSON.stringify({
+          0: {},
+        })
+      );
     }
-  }, [])
+  }, []);
   const [selected, setSelected] = useState(0);
   const [components, setComponents] = useState(
-    JSON.parse(localStorage.getItem('components')) ?? {0:{}}
+    JSON.parse(localStorage.getItem("components")) ?? { 0: {} }
   );
-  useEffect(()=> {
-    localStorage.setItem('components', JSON.stringify(components));
-  })
+  useEffect(() => {
+    localStorage.setItem("components", JSON.stringify(components));
+  });
 
   const deleteSelectedHandler = ({ key }) => {
-    if (['46', 'Delete'].includes(String(key))) {
+    if (["46", "Delete"].includes(String(key))) {
       deleteSelectedComponent();
     }
   };
 
-  useEventListener('keydown', deleteSelectedHandler);
+  useEventListener("keydown", deleteSelectedHandler);
 
   const generateRandomId = () => {
     let id = Math.floor(Math.random() * 10000);
@@ -76,10 +77,10 @@ function App() {
     const id = generateRandomId();
     const newComponents = { ...components };
     switch (type) {
-      case 'text':
+      case "text":
         newComponents[id] = { ...defaultText };
         break;
-      case 'equation':
+      case "equation":
         newComponents[id] = { ...defaultEquation };
         break;
     }
@@ -99,20 +100,21 @@ function App() {
 
   return (
     <>
-      <Editor
-        selected={selected}
-        getAttribute={getAttribute}
-        setAttribute={setAttribute}
-      />
       <Canvas
         components={components}
         setComponents={setComponents}
+        selected={selected}
         setSelected={setSelected}
         unselectComponentHandler={() => setSelected(0)}
         tools={tools}
         addComponent={(tool) => {
           createComponent(tool.component);
         }}
+      />
+      <Editor
+        selected={selected}
+        getAttribute={getAttribute}
+        setAttribute={setAttribute}
       />
     </>
   );
