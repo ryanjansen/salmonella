@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
-import { Stage, Layer, Text } from 'react-konva';
+import React, { useRef } from "react";
+import { Stage, Layer, Text, Line } from "react-konva";
 import {
   getDistance,
   getCenter,
   isTouchEnabled,
-} from './utils/StageZoomHandlers';
+} from "./utils/StageZoomHandlers";
+import { DrawSettings } from "./components/DrawSettings";
 
 const scaleBy = 1.04;
 
@@ -129,9 +130,57 @@ function Canvas({
     setSelected(e.target.id());
   };
 
+  // Drawing
+  const [tool, setTool] = React.useState("pen");
+  const [lines, setlines] = React.useState([]);
+  const [width, setWidth] = React.useState(5);
+  const [color, setColor] = React.useState("#df4b26");
+  const isDrawing = React.useRef(false);
+
+  function getRelativePointerPosition(node) {
+    // the function will return pointer position relative to the passed node
+    var transform = node.getAbsoluteTransform().copy();
+    // to detect relative position we need to invert transform
+    transform.invert();
+
+    // get pointer (say mouse or touch) position
+    var pos = node.getStage().getPointerPosition();
+
+    // now we find a relative point
+    return transform.point(pos);
+  }
+  const drawMouseMove = (e) => {
+    if (!isDrawing.current) {
+      return;
+    }
+    const stage = e.target.getStage();
+    //const point = stage.getPointerPosition();
+    const point = getRelativePointerPosition(stage);
+    let lastline = lines[lines.length - 1];
+    lastline.points = lastline.points.concat([point.x, point.y]);
+    lines.splice(lines.length - 1, 1, lastline);
+    setlines(lines.concat());
+  };
+
+  const drawMouseDown = (e) => {
+    isDrawing.current = true;
+    //const pos = e.target.getStage().getPointerPosition();
+    const pos = getRelativePointerPosition(e.target.getStage());
+    setlines([
+      ...lines,
+      { tool, width: width, color: color, points: [pos.x, pos.y] },
+    ]);
+  };
+
+  const drawMouseUp = () => {
+    isDrawing.current = false;
+  };
+
+  const [drawMode, setDrawMode] = React.useState(false);
+
   const renderComponent = (id, component) => {
     switch (component.type) {
-      case 'text':
+      case "text":
         return (
           <Text
             key={id}
@@ -145,42 +194,73 @@ function Canvas({
               if (e.evt.defaultPrevented) return;
               e.evt.preventDefault();
             }}
-            text={component.text ?? 'text'}
+            text={component.text ?? "text"}
             x={component.x}
             y={component.y}
-            fontFamily={component.fontFamily ?? 'Arial'}
+            fontFamily={component.fontFamily ?? "Arial"}
             fontSize={component.fontSize ?? 12}
-            fontStyle={component.fontStyle ?? 'normal'}
-            textDecoration={component.textDecoration ?? ''}
-            fill={component.fill ?? 'black'}
+            fontStyle={component.fontStyle ?? "normal"}
+            textDecoration={component.textDecoration ?? ""}
+            fill={component.fill ?? "black"}
           />
         );
     }
   };
 
+  const deselectMouseDown = (e) => {
+    if (e.evt.defaultPrevented) return;
+    e.evt.preventDefault();
+    unselectComponentHandler();
+  };
+
   return (
-    <Stage
-      width={window.innerWidth}
-      height={window.innerHeight}
-      draggable={!isTouchEnabled()}
-      onWheel={(event) => zoomStage(event, stageRef)}
-      onTouchMove={handleTouch}
-      onTouchEnd={handleTouchEnd}
-      ref={stageRef}
-      onMouseDown={(e) => {
-        if (e.evt.defaultPrevented) return;
-        e.evt.preventDefault();
-        unselectComponentHandler();
-      }}
-    >
-      <Layer>
-        {Object.entries(components).map(([id, component]) => {
-          console.log(id);
-          console.log(component);
-          return renderComponent(id, component);
-        })}
-      </Layer>
-    </Stage>
+    <div>
+      <DrawSettings
+        setDrawMode={setDrawMode}
+        setlines={setlines}
+        lines={lines}
+        setWidth={setWidth}
+        setTool={setTool}
+        setColor={setColor}
+        drawMode={drawMode}
+        width={width}
+        tool={tool}
+        color={color}
+      />
+      <Stage
+        width={window.innerWidth}
+        height={window.innerHeight}
+        draggable={!isTouchEnabled() && !drawMode}
+        onWheel={(event) => zoomStage(event, stageRef)}
+        onTouchMove={drawMode ? null : handleTouch}
+        onTouchEnd={drawMode ? null : handleTouchEnd}
+        ref={stageRef}
+        onMouseDown={drawMode ? drawMouseDown : deselectMouseDown}
+        onMouseMove={drawMode ? drawMouseMove : null}
+        onMouseUp={drawMode ? drawMouseUp : null}
+      >
+        <Layer>
+          {Object.entries(components).map(([id, component]) => {
+            console.log(id);
+            console.log(component);
+            return renderComponent(id, component);
+          })}
+          {lines.map((line, i) => (
+            <Line
+              key={i}
+              points={line.points}
+              stroke={line.color}
+              strokeWidth={line.width}
+              tension={0.5}
+              lineCap="round"
+              globalCompositeOperation={
+                line.tool === "eraser" ? "destination-out" : "source-over"
+              }
+            />
+          ))}
+        </Layer>
+      </Stage>
+    </div>
   );
 }
 
