@@ -10,7 +10,12 @@ export const Editor = ({ selected, getAttribute, setAttribute }) => {
           <TextEditor getAttribute={getAttribute} setAttribute={setAttribute} />
         );
       case 'equation':
-        return <EquationEditor />;
+        return (
+          <EquationEditor
+            getAttribute={getAttribute}
+            setAttribute={setAttribute}
+          />
+        );
       case 'shape':
         return 'PLACEHOLDER';
       default:

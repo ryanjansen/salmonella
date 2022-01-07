@@ -1,10 +1,11 @@
 import React, { useRef } from 'react';
-import { Stage, Layer, Text } from 'react-konva';
+import { Stage, Layer, Text, Image } from 'react-konva';
 import {
   getDistance,
   getCenter,
   isTouchEnabled,
 } from './utils/StageZoomHandlers';
+import EquationImage from './components/Equation/EquationImage';
 
 const scaleBy = 1.04;
 
@@ -129,6 +130,11 @@ function Canvas({
     setSelected(e.target.id());
   };
 
+  const handleMouseDown = (e) => {
+    if (e.evt.defaultPrevented) return;
+    e.evt.preventDefault();
+  };
+
   const renderComponent = (id, component) => {
     switch (component.type) {
       case 'text':
@@ -141,10 +147,7 @@ function Canvas({
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
             onDblClick={handleDblClick}
-            onMouseDown={(e) => {
-              if (e.evt.defaultPrevented) return;
-              e.evt.preventDefault();
-            }}
+            onMouseDown={handleMouseDown}
             text={component.text ?? 'text'}
             x={component.x}
             y={component.y}
@@ -153,6 +156,23 @@ function Canvas({
             fontStyle={component.fontStyle ?? 'normal'}
             textDecoration={component.textDecoration ?? ''}
             fill={component.fill ?? 'black'}
+          />
+        );
+
+      case 'equation':
+        return (
+          <EquationImage
+            key={id}
+            latex={component.latex}
+            id={id}
+            draggable
+            x={component.x}
+            y={component.y}
+            isDragging={false}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            onDblClick={handleDblClick}
+            onMouseDown={handleMouseDown}
           />
         );
     }
@@ -175,8 +195,6 @@ function Canvas({
     >
       <Layer>
         {Object.entries(components).map(([id, component]) => {
-          console.log(id);
-          console.log(component);
           return renderComponent(id, component);
         })}
       </Layer>
