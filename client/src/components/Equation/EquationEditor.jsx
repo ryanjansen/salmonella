@@ -11,6 +11,7 @@ function EquationEditor({ setAttribute, getAttribute }) {
         setAttribute('latex', mathField.latex());
       }}
       id="equation-editor"
+      style={{ fontSize: 32 }}
     />
   );
 }

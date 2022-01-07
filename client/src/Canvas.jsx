@@ -1,11 +1,12 @@
-import React, { useRef } from "react";
-import { Stage, Layer, Text, Line } from "react-konva";
+import React, { useRef } from 'react';
+import { Stage, Layer, Text, Line } from 'react-konva';
 import {
   getDistance,
   getCenter,
   isTouchEnabled,
-} from "./utils/StageZoomHandlers";
-import { DrawSettings } from "./components/DrawSettings";
+} from './utils/StageZoomHandlers';
+import EquationImage from './components/Equation/EquationImage';
+import { DrawSettings } from './components/DrawSettings';
 
 const scaleBy = 1.04;
 
@@ -178,6 +179,11 @@ function Canvas({
 
   const [drawMode, setDrawMode] = React.useState(false);
 
+  const handleMouseDown = (e) => {
+    if (e.evt.defaultPrevented) return;
+    e.evt.preventDefault();
+  };
+
   const renderComponent = (id, component) => {
     switch (component.type) {
       case "text":
@@ -190,11 +196,8 @@ function Canvas({
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
             onDblClick={handleDblClick}
-            onMouseDown={(e) => {
-              if (e.evt.defaultPrevented) return;
-              e.evt.preventDefault();
-            }}
-            text={component.text ?? "text"}
+            onMouseDown={handleMouseDown}
+            text={component.text ?? 'text'}
             x={component.x}
             y={component.y}
             fontFamily={component.fontFamily ?? "Arial"}
@@ -202,6 +205,23 @@ function Canvas({
             fontStyle={component.fontStyle ?? "normal"}
             textDecoration={component.textDecoration ?? ""}
             fill={component.fill ?? "black"}
+          />
+        );
+
+      case 'equation':
+        return (
+          <EquationImage
+            key={id}
+            latex={component.latex}
+            id={id}
+            draggable
+            x={component.x}
+            y={component.y}
+            isDragging={false}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            onDblClick={handleDblClick}
+            onMouseDown={handleMouseDown}
           />
         );
     }
@@ -241,8 +261,6 @@ function Canvas({
       >
         <Layer>
           {Object.entries(components).map(([id, component]) => {
-            console.log(id);
-            console.log(component);
             return renderComponent(id, component);
           })}
           {lines.map((line, i) => (
