@@ -11,6 +11,8 @@ function App() {
   ]);
   const [selectedTools, setSelectedTools] = useState([]);
 
+  console.log('hi');
+
   console.log('selected tools: ', selectedTools);
 
   return (
@@ -19,6 +21,8 @@ function App() {
       <Toolbar
         tools={tools}
         setSelectedTools={(tool) => {
+          switch (tool.type) {
+          }
           setSelectedTools([...selectedTools, tool]);
         }}
       ></Toolbar>
