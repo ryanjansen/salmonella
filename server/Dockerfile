@@ -1,13 +1,17 @@
-FROM node:alpine
+# 
+FROM python:3.9
 
-WORKDIR /usr/src/app/server
+# 
+WORKDIR /code
 
-COPY package*.json ./
+# 
+COPY ./requirements.txt /code/requirements.txt
 
-RUN npm i
+# 
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
+# 
 COPY . .
 
-EXPOSE 3000
-
-CMD ["npm", "start"]
+# 
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
