@@ -1,13 +1,14 @@
-import React, { useRef } from 'react';
-import { Stage, Layer, Text, Line } from 'react-konva';
+import React, { useRef, useEffect } from "react";
+import { Stage, Layer, Text, Line, Transformer } from "react-konva";
 import {
   getDistance,
   getCenter,
   isTouchEnabled,
-} from './utils/StageZoomHandlers';
-import EquationImage from './components/Equation/EquationImage';
-import { DrawSettings } from './components/DrawSettings';
-import Toolbar from './components/Toolbar';
+} from "./utils/StageZoomHandlers";
+import EquationImage from "./components/Equation/EquationImage";
+import { DrawSettings } from "./components/DrawSettings";
+import Toolbar from "./components/Toolbar";
+import TextComponent from "./components/TextComponent";
 
 const scaleBy = 1.04;
 
@@ -16,6 +17,7 @@ function Canvas({
   addComponent,
   components,
   setComponents,
+  selected,
   setSelected,
   unselectComponentHandler,
 }) {
@@ -128,6 +130,16 @@ function Canvas({
     setComponents(newComponents);
   };
 
+  const handleTransformEnd = ({ id, x, y, width, height }) => {
+    const newComponents = { ...components };
+    const currentComponent = newComponents[id];
+    currentComponent.x = x;
+    currentComponent.y = y;
+    currentComponent.width = width;
+    currentComponent.height = height;
+    setComponents(newComponents);
+  };
+
   const handleDblClick = (e) => {
     if (e.evt.defaultPrevented) return;
     e.evt.preventDefault();
@@ -135,10 +147,10 @@ function Canvas({
   };
 
   // Drawing
-  const [tool, setTool] = React.useState('pen');
+  const [tool, setTool] = React.useState("pen");
   const [lines, setlines] = React.useState([]);
   const [width, setWidth] = React.useState(5);
-  const [color, setColor] = React.useState('#df4b26');
+  const [color, setColor] = React.useState("#df4b26");
   const isDrawing = React.useRef(false);
 
   function getRelativePointerPosition(node) {
@@ -188,32 +200,39 @@ function Canvas({
   };
 
   const renderComponent = (id, component) => {
+    const isSelected = id == selected && id != 0;
+
     switch (component.type) {
-      case 'text':
+      case "text":
         return (
-          <Text
-            key={id}
+          <TextComponent
+            isSelected={isSelected}
             id={id}
+            key={id}
             draggable={true}
             isDragging={false}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
             onDblClick={handleDblClick}
             onMouseDown={handleMouseDown}
-            text={component.text ?? 'text'}
+            handleTransformEnd={handleTransformEnd}
+            text={component.text ?? "text"}
             x={component.x}
             y={component.y}
-            fontFamily={component.fontFamily ?? 'Arial'}
+            fontFamily={component.fontFamily ?? "Arial"}
             fontSize={component.fontSize ?? 12}
-            fontStyle={component.fontStyle ?? 'normal'}
-            textDecoration={component.textDecoration ?? ''}
-            fill={component.fill ?? 'black'}
+            fontStyle={component.fontStyle ?? "normal"}
+            textDecoration={component.textDecoration ?? ""}
+            fill={component.fill ?? "black"}
+            width={component.width ?? null}
+            height={component.height ?? null}
           />
         );
 
-      case 'equation':
+      case "equation":
         return (
           <EquationImage
+            isSelected={isSelected}
             key={id}
             latex={component.latex}
             id={id}
@@ -225,6 +244,9 @@ function Canvas({
             onDragEnd={handleDragEnd}
             onDblClick={handleDblClick}
             onMouseDown={handleMouseDown}
+            handleTransformEnd={handleTransformEnd}
+            width={component.width ?? null}
+            height={component.height ?? null}
           />
         );
     }
@@ -232,8 +254,10 @@ function Canvas({
 
   const deselectMouseDown = (e) => {
     if (e.evt.defaultPrevented) return;
-    e.evt.preventDefault();
-    unselectComponentHandler();
+    if (e.target === e.target.getStage()) {
+      e.evt.preventDefault();
+      unselectComponentHandler();
+    }
   };
 
   return (
@@ -276,7 +300,7 @@ function Canvas({
               tension={0.5}
               lineCap="round"
               globalCompositeOperation={
-                line.tool === 'eraser' ? 'destination-out' : 'source-over'
+                line.tool === "eraser" ? "destination-out" : "source-over"
               }
             />
           ))}

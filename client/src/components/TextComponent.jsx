@@ -1,21 +1,26 @@
-import React, { useEffect, useState, useRef } from "react";
-import html2canvas from "html2canvas";
-import { Image, Transformer } from "react-konva";
+import React, { useRef, useEffect } from "react";
+import { Text, Transformer } from "react-konva";
 
-function EquationImage({
+function TextComponent({
+  isSelected,
   id,
-  latex,
+  draggable,
   isDragging,
   onDragStart,
   onDragEnd,
   onDblClick,
   onMouseDown,
+  text,
   x,
   y,
-  isSelected,
-  handleTransformEnd,
+  fontFamily,
+  fontSize,
+  fontStyle,
+  textDecoration,
+  fill,
   width,
   height,
+  handleTransformEnd,
 }) {
   const shapeRef = useRef();
   const trRef = useRef();
@@ -28,32 +33,9 @@ function EquationImage({
     }
   }, [isSelected]);
 
-  const [image, setImage] = useState(null);
-
-  const generateEquation = () => {
-    const equationNode = document.querySelector(".mq-root-block");
-
-    html2canvas(equationNode, {
-      backgroundColor: "rgba(0,0,0,0)",
-    })
-      .then((canvas) => {
-        setImage(canvas);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
-    generateEquation();
-  }, []);
-
-  useEffect(() => {
-    const timeoutID = setTimeout(() => generateEquation(), 500);
-    return () => clearTimeout(timeoutID);
-  }, [latex]);
-
   return (
     <>
-      <Image
+      <Text
         ref={shapeRef}
         onTransformEnd={(e) => {
           // transformer is changing scale of the node
@@ -75,17 +57,21 @@ function EquationImage({
             height: Math.max(node.height() * scaleY),
           });
         }}
-        key={id}
         id={id}
+        draggable={draggable}
         isDragging={isDragging}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDblClick={onDblClick}
         onMouseDown={onMouseDown}
+        text={text}
         x={x}
         y={y}
-        image={image}
-        draggable
+        fontFamily={fontFamily}
+        fontSize={fontSize}
+        fontStyle={fontStyle}
+        textDecoration={textDecoration}
+        fill={fill}
         width={width}
         height={height}
       />
@@ -105,4 +91,4 @@ function EquationImage({
   );
 }
 
-export default EquationImage;
+export default TextComponent;

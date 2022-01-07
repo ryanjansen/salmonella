@@ -107,6 +107,7 @@ function App() {
       <Canvas
         components={components}
         setComponents={setComponents}
+        selected={selected}
         setSelected={setSelected}
         unselectComponentHandler={() => setSelected(0)}
         tools={tools}

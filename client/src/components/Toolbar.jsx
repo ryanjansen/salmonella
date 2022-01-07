@@ -15,8 +15,6 @@ function Toolbar({
   color,
   setColor,
 }) {
-  console.log("sytles: ", styles);
-
   return (
     <div className={styles.toolbar}>
       {tools.map((tool, index) => (
