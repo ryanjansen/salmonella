@@ -9,8 +9,8 @@
 }
 
 .texteditor__quickButton {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   transition: border 0.3s;
   border: 1px solid transparent;
   border-radius: 5px;
@@ -23,12 +23,17 @@
 }
 
 .texteditor__quickButtonActive {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   transition: border 0.3s;
   border: 1px solid transparent;
   border-radius: 5px;
   cursor: pointer;
   padding: 10px;
   background-color: AliceBlue;
+}
+
+.inputGroup {
+  display: flex;
+  justify-content: space-between;
 }

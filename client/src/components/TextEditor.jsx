@@ -56,11 +56,39 @@ export const TextEditor = ({ getAttribute, setAttribute }) => {
 
   return (
     <div className={styles.texteditor}>
-      TEXT EDITOR
-      <input
-        value={getAttribute("text")}
-        onChange={(e) => setAttribute("text", e.target.value)}
-      ></input>
+      <b>Edit:</b>
+      <div className={styles.inputGroup}>
+        <label htmlFor="text">Font-Size: </label>
+        <input
+          id="text"
+          value={getAttribute("text")}
+          onChange={(e) => setAttribute("text", e.target.value)}
+        ></input>
+      </div>
+      <div className={styles.inputGroup}>
+        <label htmlFor="fontsize">Font-Size: </label>
+        <input
+          id="fontsize"
+          type="number"
+          value={
+            getAttribute("fontSize") != null ? getAttribute("fontSize") : 12
+          }
+          onChange={(e) => setAttribute("fontSize", e.target.value)}
+        ></input>
+      </div>
+      <div className={styles.inputGroup}>
+        <label htmlFor="fontfamily">Font-Family: </label>
+        <input
+          id="fontfamily"
+          type="text"
+          value={
+            getAttribute("fontFamily") != null
+              ? getAttribute("fontFamily")
+              : "Arial"
+          }
+          onChange={(e) => setAttribute("fontFamily", e.target.value)}
+        ></input>
+      </div>
       <div className={styles.texteditor__quickButtons}>
         <img
           className={
@@ -103,24 +131,6 @@ export const TextEditor = ({ getAttribute, setAttribute }) => {
           alt="Strikethrough Button"
         ></img>
       </div>
-      <label htmlFor="fontsize">FONT SIZE</label>
-      <input
-        id="fontsize"
-        type="number"
-        value={getAttribute("fontSize") != null ? getAttribute("fontSize") : 12}
-        onChange={(e) => setAttribute("fontSize", e.target.value)}
-      ></input>
-      <label htmlFor="fontfamily">FONT FAMILY</label>
-      <input
-        id="fontfamily"
-        type="text"
-        value={
-          getAttribute("fontFamily") != null
-            ? getAttribute("fontFamily")
-            : "Arial"
-        }
-        onChange={(e) => setAttribute("fontFamily", e.target.value)}
-      ></input>
     </div>
   );
 };
