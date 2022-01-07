@@ -102,11 +102,6 @@ function App() {
 
   return (
     <>
-      <Editor
-        selected={selected}
-        getAttribute={getAttribute}
-        setAttribute={setAttribute}
-      />
       <Canvas
         components={components}
         setComponents={setComponents}
@@ -119,6 +114,11 @@ function App() {
           createComponent(tool.component);
         }}
       ></Toolbar>
+      <Editor
+        selected={selected}
+        getAttribute={getAttribute}
+        setAttribute={setAttribute}
+      />
     </>
   );
 }
