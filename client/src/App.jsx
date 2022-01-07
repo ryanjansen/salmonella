@@ -98,8 +98,6 @@ function App() {
   const deleteSelectedComponent = () => {
     if (selected == 0) return;
 
-    console.log("ran");
-
     const newComponents = { ...components };
     delete newComponents[`${selected}`];
     setSelected(0);
