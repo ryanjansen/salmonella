@@ -306,7 +306,6 @@ function Canvas({
           {Object.entries(components).map(([id, component]) => {
             return renderComponent(id, component);
           })}
-          <Text text="dwebug" onMouseDown={(e) => console.log(components)} />
           {lines.map((line, i) => (
             <Line
               key={i}
