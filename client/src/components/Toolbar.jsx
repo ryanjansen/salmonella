@@ -1,18 +1,37 @@
 import React, { useState } from 'react';
+import styles from '../styles/Toolbar.module.css';
 
-function Toolbar({ tools, setComponents }) {
+function Toolbar({
+  tools,
+  addComponent,
+  setDrawMode,
+  drawMode,
+  setlines,
+  lines,
+  width,
+  setWidth,
+  tool,
+  setTool,
+  color,
+  setColor,
+}) {
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0 }}>
+    <div className={styles.toolbar}>
       {tools.map((tool, index) => (
         <div
           key={index}
           onClick={() => {
-            setComponents(tool);
+            addComponent(tool);
           }}
         >
-          {tool.icon}
+          <img
+            alt="editor icon"
+            src={tool.icon}
+            className={styles.toolbar__icon}
+          />
         </div>
       ))}
+      <div className={styles.toolbar__divider}></div>
     </div>
   );
 }

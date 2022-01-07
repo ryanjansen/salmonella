@@ -3,6 +3,8 @@ import Canvas from "./Canvas";
 import Toolbar from "./components/Toolbar";
 import { Editor } from "./components/Editor";
 import { defaultText, defaultEquation } from "./DefaultComponents";
+import EditorTextIcon from "./icons/editor-text.png";
+import EditorEquationIcon from "./icons/editor-equation.png";
 
 const useEventListener = (eventName, handler, element = window) => {
   const savedHandler = useRef();
@@ -24,8 +26,8 @@ const useEventListener = (eventName, handler, element = window) => {
 
 function App() {
   const [tools, setTools] = useState([
-    { icon: "Text", component: "text" },
-    { icon: "Equation", component: "equation" },
+    { icon: EditorTextIcon, component: "text" },
+    { icon: EditorEquationIcon, component: "equation" },
   ]);
   const [selected, setSelected] = useState(0);
   const [components, setComponents] = useState({
@@ -107,13 +109,11 @@ function App() {
         setComponents={setComponents}
         setSelected={setSelected}
         unselectComponentHandler={() => setSelected(0)}
-      />
-      <Toolbar
         tools={tools}
-        setComponents={(tool) => {
+        addComponent={(tool) => {
           createComponent(tool.component);
         }}
-      ></Toolbar>
+      />
       <Editor
         selected={selected}
         getAttribute={getAttribute}
