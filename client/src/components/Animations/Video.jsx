@@ -11,6 +11,7 @@ export const Video = ({ src }) => {
       const element = document.createElement("video");
       element.src = src;
       element.muted = true;
+      element.loop = true;
       return element;
     }, [src]);
   
@@ -29,6 +30,7 @@ export const Video = ({ src }) => {
     }, [videoElement]);
   
     // use Konva.Animation to redraw a layer
+    /*
     React.useEffect(() => {
       videoElement.play();
       const layer = imageRef.current.getLayer();
@@ -38,6 +40,19 @@ export const Video = ({ src }) => {
   
       return () => anim.stop();
     }, [videoElement]);
+    */
+
+    const startAnim = () => {
+      videoElement.play();
+      const layer = imageRef.current.getLayer();
+      const anim = new Konva.Animation(() => {}, layer);
+      setAnim(anim);
+      anim.start();
+      console.log(playing);
+    }
+
+    const [playing, setPlaying] = React.useState(false);
+    const [anim, setAnim] = React.useState(null);
   
     return (
       <Image
@@ -49,6 +64,11 @@ export const Video = ({ src }) => {
         width={size.width}
         height={size.height}
         draggable
+        onMouseDown={(e)=> {
+          setPlaying(!playing);
+          if (playing) videoElement.pause();
+          else startAnim();
+        }}
       />
     );
   };
