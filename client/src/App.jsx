@@ -29,6 +29,9 @@ function App() {
     },
     3: {
       type: "equation",
+      latex: "x = y",
+      x: 300,
+      y: 400,
     },
   });
 
