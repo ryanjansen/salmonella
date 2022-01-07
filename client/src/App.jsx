@@ -47,12 +47,6 @@ function App() {
       y: 200,
       textDecoration: "underline",
     },
-    // 3: {
-    //   type: "equation",
-    //   latex: "x = y",
-    //   x: 300,
-    //   y: 400,
-    // },
   });
 
   const deleteSelectedHandler = ({ key }) => {
@@ -86,12 +80,14 @@ function App() {
     const newComponents = { ...components };
     switch (type) {
       case "text":
-        newComponents[id] = Object.assign({}, defaultText);
+        newComponents[id] = { ...defaultText };
         break;
       case "equation":
-        newComponents[id] = Object.assign({}, defaultEquation);
+        newComponents[id] = { ...defaultEquation };
         break;
     }
+    // Focus new component
+    setSelected(id);
     setComponents(newComponents);
   };
 

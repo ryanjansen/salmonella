@@ -1,10 +1,11 @@
-import React, { useRef } from "react";
-import { Stage, Layer, Text } from "react-konva";
+import React, { useRef } from 'react';
+import { Stage, Layer, Text } from 'react-konva';
+import TextComponent from './components/Text/TextComponent';
 import {
   getDistance,
   getCenter,
   isTouchEnabled,
-} from "./utils/StageZoomHandlers";
+} from './utils/StageZoomHandlers';
 
 const scaleBy = 1.04;
 
@@ -106,6 +107,58 @@ function Canvas({
     lastDist = 0;
   }
 
+  const handleDragStart = (e) => {
+    const id = e.target.id();
+    const newComponents = { ...components };
+    newComponents[id].isDragging = true;
+    setComponents(newComponents);
+  };
+
+  const handleDragEnd = (e) => {
+    const id = e.target.id();
+    const newComponents = { ...components };
+    const currentComponent = newComponents[id];
+    currentComponent.x = e.target.x();
+    currentComponent.y = e.target.y();
+    currentComponent.isDragging = false;
+    setComponents(newComponents);
+  };
+
+  const onDblClick = (key) => {
+    if (e.evt.defaultPrevented) return;
+    e.evt.preventDefault();
+    setSelected(key);
+  };
+
+  const renderComponent = (id, component) => {
+    switch (component.type) {
+      case 'text':
+        return (
+          <Text
+            key={id}
+            id={id}
+            draggable={true}
+            isDragging={false}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            onDblClick={() => onDblClick(id)}
+            onMouseDown={(e) => {
+              if (e.evt.defaultPrevented) return;
+              e.evt.preventDefault();
+            }}
+            text={component.text ?? 'text'}
+            x={component.x}
+            y={component.y}
+            fontFamily={component.fontFamily ?? 'Arial'}
+            fontSize={component.fontSize ?? 12}
+            fontStyle={component.fontStyle ?? 'normal'}
+            textDecoration={component.textDecoration ?? ''}
+            fill={component.fill ?? 'black'}
+          />
+        );
+    }
+  };
+
   return (
     <Stage
       width={window.innerWidth}
@@ -122,62 +175,10 @@ function Canvas({
       }}
     >
       <Layer>
-        {Object.entries(components).map(([key, value]) => {
-          switch (value.type) {
-            case "text":
-              return (
-                <Text
-                  // Mandatory - Key, Draggable
-                  key={key}
-                  draggable={true}
-                  isDragging={false}
-                  onDragStart={() => {
-                    const newcomps = Object.assign({}, components);
-                    const newtext = Object.assign({}, newcomps.key);
-                    newtext.isDragging = true;
-                    newcomps.key = newtext;
-                    setComponents(newcomps);
-                  }}
-                  onDragEnd={(e) => {
-                    const newcomps = Object.assign({}, components);
-                    const newtext = Object.assign({}, newcomps.key);
-                    newtext.isDragging = false;
-                    newtext.x = e.target.x();
-                    newtext.y = e.target.y();
-                    newcomps.key = newtext;
-                    setComponents(newcomps);
-                  }}
-                  onMouseDown={(e) => {
-                    if (e.evt.defaultPrevented) return;
-                    e.evt.preventDefault();
-                  }}
-                  onDblClick={(e) => {
-                    if (e.evt.defaultPrevented) return;
-                    e.evt.preventDefault();
-                    setSelected(key);
-                  }}
-                  // Optionals
-                  text={value.text != null ? value.text : ""}
-                  x={value.x != null ? value.x : 100}
-                  y={value.y != null ? value.y : 100}
-                  fontFamily={
-                    value.fontFamily != null ? value.fontFamily : "Arial"
-                  }
-                  fontSize={value.fontSize != null ? value.fontSize : 12}
-                  fontStyle={
-                    value.fontStyle != null ? value.fontStyle : "normal"
-                  }
-                  textDecoration={
-                    value.textDecoration != null ? value.textDecoration : ""
-                  }
-                  fill={value.fill != null ? value.fill : "black"}
-                />
-              );
-            case "equation":
-              return <Text text="Wrong" />;
-            case "image":
-              break;
-          }
+        {Object.entries(components).map(([id, component]) => {
+          console.log(id);
+          console.log(component);
+          return renderComponent(id, component);
         })}
       </Layer>
     </Stage>
