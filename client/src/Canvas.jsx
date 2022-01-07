@@ -3,7 +3,7 @@ import { Stage, Layer, Rect, Text } from 'react-konva';
 import Konva from 'konva';
 import Draw from './components/Draw';
 
-function Canvas({ components, setComponents }) {
+function Canvas({ components, setComponents, setSelected }) {
 
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
@@ -31,6 +31,7 @@ function Canvas({ components, setComponents }) {
                 newcomps.key = newtext;
                 setComponents(newcomps);
               }}
+              onMouseDown={()=>setSelected(key)}
               // Optionals
               text={value.text != null ? value.text : ""}
               x={value.x != null ? value.x : 100}

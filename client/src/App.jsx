@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Canvas from './Canvas';
 import Draw from './components/Draw';
 import Toolbar from './components/Toolbar';
+import { Editor } from './components/Editor';
 
 function App() {
   const [tools, setTools] = useState([
@@ -9,6 +10,7 @@ function App() {
     { icon: 1, component: <Draw /> },
     { icon: 2, component: <Draw /> },
   ]);
+  const [selected, setSelected] = useState(-1);
   const [components, setComponents] = useState({
     1: {
       type: "Text",
@@ -36,7 +38,8 @@ function App() {
 
   return (
     <>
-      <Canvas components={components} setComponents={setComponents} />
+      <Editor selected={selected} />
+      <Canvas components={components} setComponents={setComponents} setSelected={setSelected}/>
       <Toolbar
         tools={tools}
         setComponents={(tool) => {
