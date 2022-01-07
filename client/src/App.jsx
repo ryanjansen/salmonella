@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Canvas from "./Canvas";
+import Draw from "./components/Draw";
 import Toolbar from "./components/Toolbar";
 import { Editor } from "./components/Editor";
+import { defaultText, defaultEquation } from "./DefaultComponents";
 
 function App() {
   const [tools, setTools] = useState([
-    { icon: "Draw", component: "Text" },
-    { icon: 1, component: "Text" },
-    { icon: 2, component: "Text" },
+    { icon: "Text", component: "text" },
+    { icon: "Equation", component: "equation" },
   ]);
   const [selected, setSelected] = useState(-1);
   const [components, setComponents] = useState({
     1: {
-      type: "Text",
+      type: "text",
       text: "First",
       x: 50,
       y: 100,
@@ -20,16 +21,24 @@ function App() {
       fontSize: 28,
     },
     2: {
-      type: "Text",
+      type: "text",
       text: "testing",
       x: 150,
       y: 200,
       textDecoration: "underline",
     },
     3: {
-      type: "Equation",
+      type: "equation",
     },
   });
+
+  const generateRandomId = () => {
+    let id = Math.floor(Math.random() * 10000);
+    while (id in components) {
+      id = Math.floor(Math.random() * 10000);
+    }
+    return id;
+  };
 
   const getAttribute = (attribute) => {
     return components[selected][attribute];
@@ -38,6 +47,20 @@ function App() {
   const setAttribute = (attribute, value) => {
     const newComponents = { ...components };
     newComponents[selected] = value;
+    setComponents(newComponents);
+  };
+
+  const createComponent = (type) => {
+    const id = generateRandomId();
+    const newComponents = { ...components };
+    switch (type) {
+      case "text":
+        newComponents[id] = defaultText;
+        break;
+      case "equation":
+        newComponents[id] = defaultEquation;
+        break;
+    }
     setComponents(newComponents);
   };
 
@@ -52,7 +75,7 @@ function App() {
       <Toolbar
         tools={tools}
         setComponents={(tool) => {
-          setComponents([...components, tool]);
+          createComponent(tool.component);
         }}
       ></Toolbar>
     </>
