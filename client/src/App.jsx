@@ -29,7 +29,11 @@ function App() {
     { icon: EditorTextIcon, component: "text" },
     { icon: EditorEquationIcon, component: "equation" },
   ]);
+  const [selected, setSelected] = useState(0);
   useEffect(() => {
+    async function sleep(time) {
+      await new Promise(r => setTimeout(r, time));
+    }
     if (localStorage.getItem("components") === null) {
       localStorage.setItem(
         "components",
@@ -38,8 +42,21 @@ function App() {
         })
       );
     }
+    /*
+    for (const [id, obj] of Object.entries(components)) {
+      setSelected(id);
+    }
+    */
   }, []);
-  const [selected, setSelected] = useState(0);
+
+  useEffect(() => {
+    setTimeout(() => 
+    
+    Object.entries(components).forEach(([key, component]) => {
+      setSelected(key)
+    })
+    , 700)
+  }, [])
   const [components, setComponents] = useState(
     JSON.parse(localStorage.getItem("components")) ?? { 0: {} }
   );

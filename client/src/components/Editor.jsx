@@ -20,7 +20,7 @@ export const Editor = ({ selected, getAttribute, setAttribute }) => {
       case "shape":
         return "PLACEHOLDER";
       default:
-        return "WRONG";
+        return "PLACE";
     }
   };
 

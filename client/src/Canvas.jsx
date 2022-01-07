@@ -238,7 +238,7 @@ function Canvas({
       case "equation":
         return (
           <EquationImage
-            isSelected={isSelected}
+          selected={selected}
             key={id}
             latex={component.latex}
             id={id}
@@ -253,6 +253,7 @@ function Canvas({
             handleTransformEnd={handleTransformEnd}
             width={component.width ?? null}
             height={component.height ?? null}
+            setSelected={setSelected}
           />
         );
     }

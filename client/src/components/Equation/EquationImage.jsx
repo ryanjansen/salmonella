@@ -12,39 +12,51 @@ function EquationImage({
   onMouseDown,
   x,
   y,
-  isSelected,
+  selected,
   handleTransformEnd,
   width,
   height,
+  setSelected
 }) {
   const shapeRef = useRef();
   const trRef = useRef();
 
   useEffect(() => {
-    if (isSelected && id != 0) {
+   if (selected === id && id != 0) {
       // we need to attach transformer manually
       trRef.current.nodes([shapeRef.current]);
       trRef.current.getLayer().batchDraw();
+
+      generateEquation();
+
     }
-  }, [isSelected]);
+  }, [selected]);
 
   const [image, setImage] = useState(null);
 
-  const generateEquation = () => {
+  const generateEquation = async () => {
     const equationNode = document.querySelector(".mq-root-block");
 
-    html2canvas(equationNode, {
-      backgroundColor: "rgba(0,0,0,0)",
-    })
-      .then((canvas) => {
-        setImage(canvas);
+    try {
+      const canvas = await html2canvas(equationNode, {
+        backgroundColor: "rgba(0,0,0,0)",
       })
-      .catch((err) => console.log(err));
+      console.log("id: ", id, " canvas: ", canvas)
+      setImage(canvas)
+    } catch(err) {
+      console.log("err: ", err)
+    }
+
+
+    // html2canvas(equationNode, {
+    //   backgroundColor: "rgba(0,0,0,0)",
+    // })
+    //   .then((canvas) => {
+    //     setImage(canvas);
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
-  useEffect(() => {
-    generateEquation();
-  }, []);
 
   useEffect(() => {
     const timeoutID = setTimeout(() => generateEquation(), 500);
@@ -89,7 +101,7 @@ function EquationImage({
         width={width}
         height={height}
       />
-      {isSelected && (
+      {selected === id && (
         <Transformer
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {
