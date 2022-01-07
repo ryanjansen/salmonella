@@ -9,21 +9,32 @@ function App() {
     { icon: 1, component: <Draw /> },
     { icon: 2, component: <Draw /> },
   ]);
-  const [selectedTools, setSelectedTools] = useState([]);
+  const [components, setComponents] = useState({
+    1: {
+      type: "Text",
+      text: "First",
+      x: 50,
+      y: 100
+    },
+    2: {
+      type: "Text",
+      text: "testing",
+      x: 150,
+      y: 200
+    }
+  });
 
   console.log('hi');
 
-  console.log('selected tools: ', selectedTools);
+  console.log('selected tools: ', components);
 
   return (
     <>
-      <Canvas selectedTools={selectedTools} />
+      <Canvas components={components} />
       <Toolbar
         tools={tools}
-        setSelectedTools={(tool) => {
-          switch (tool.type) {
-          }
-          setSelectedTools([...selectedTools, tool]);
+        setComponents={(tool) => {
+          setComponents([...components, tool]);
         }}
       ></Toolbar>
     </>
