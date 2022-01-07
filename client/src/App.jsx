@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
+import { Stage } from 'react-konva';
+import Konva from 'konva';
 import './App.css';
 
 function App() {
