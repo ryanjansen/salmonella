@@ -23,7 +23,7 @@ function isTouchEnabled() {
   );
 }
 
-function Canvas({ components }) {
+function Canvas({ components, setComponents, setSelected }) {
   const stageRef = useRef(null);
   let lastCenter = null;
   let lastDist = 0;
