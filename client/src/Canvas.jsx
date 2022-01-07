@@ -7,10 +7,13 @@ import {
 } from './utils/StageZoomHandlers';
 import EquationImage from './components/Equation/EquationImage';
 import { DrawSettings } from './components/DrawSettings';
+import Toolbar from './components/Toolbar';
 
 const scaleBy = 1.04;
 
 function Canvas({
+  tools,
+  addComponent,
   components,
   setComponents,
   setSelected,
@@ -132,10 +135,10 @@ function Canvas({
   };
 
   // Drawing
-  const [tool, setTool] = React.useState("pen");
+  const [tool, setTool] = React.useState('pen');
   const [lines, setlines] = React.useState([]);
   const [width, setWidth] = React.useState(5);
-  const [color, setColor] = React.useState("#df4b26");
+  const [color, setColor] = React.useState('#df4b26');
   const isDrawing = React.useRef(false);
 
   function getRelativePointerPosition(node) {
@@ -186,7 +189,7 @@ function Canvas({
 
   const renderComponent = (id, component) => {
     switch (component.type) {
-      case "text":
+      case 'text':
         return (
           <Text
             key={id}
@@ -200,11 +203,11 @@ function Canvas({
             text={component.text ?? 'text'}
             x={component.x}
             y={component.y}
-            fontFamily={component.fontFamily ?? "Arial"}
+            fontFamily={component.fontFamily ?? 'Arial'}
             fontSize={component.fontSize ?? 12}
-            fontStyle={component.fontStyle ?? "normal"}
-            textDecoration={component.textDecoration ?? ""}
-            fill={component.fill ?? "black"}
+            fontStyle={component.fontStyle ?? 'normal'}
+            textDecoration={component.textDecoration ?? ''}
+            fill={component.fill ?? 'black'}
           />
         );
 
@@ -235,6 +238,7 @@ function Canvas({
 
   return (
     <div>
+      <Toolbar tools={tools} addComponent={addComponent} />
       <DrawSettings
         setDrawMode={setDrawMode}
         setlines={setlines}
@@ -272,7 +276,7 @@ function Canvas({
               tension={0.5}
               lineCap="round"
               globalCompositeOperation={
-                line.tool === "eraser" ? "destination-out" : "source-over"
+                line.tool === 'eraser' ? 'destination-out' : 'source-over'
               }
             />
           ))}

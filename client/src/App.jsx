@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
-import Canvas from "./Canvas";
-import Toolbar from "./components/Toolbar";
-import { Editor } from "./components/Editor";
-import { defaultText, defaultEquation } from "./DefaultComponents";
+import React, { useState, useEffect, useRef } from 'react';
+import Canvas from './Canvas';
+import Toolbar from './components/Toolbar';
+import { Editor } from './components/Editor';
+import { defaultText, defaultEquation } from './DefaultComponents';
+import EditorTextIcon from './icons/editor-text.png';
+import EditorEquationIcon from './icons/editor-equation.png';
 
 const useEventListener = (eventName, handler, element = window) => {
   const savedHandler = useRef();
@@ -24,8 +26,8 @@ const useEventListener = (eventName, handler, element = window) => {
 
 function App() {
   const [tools, setTools] = useState([
-    { icon: "Text", component: "text" },
-    { icon: "Equation", component: "equation" },
+    { icon: EditorTextIcon, component: 'text' },
+    { icon: EditorEquationIcon, component: 'equation' },
   ]);
   const [selected, setSelected] = useState(0);
   const [components, setComponents] = useState({
@@ -33,29 +35,29 @@ function App() {
       // unselected
     },
     1: {
-      type: "text",
-      text: "First",
+      type: 'text',
+      text: 'First',
       x: 50,
       y: 100,
-      fontFamily: "Calibri",
+      fontFamily: 'Calibri',
       fontSize: 28,
     },
     2: {
-      type: "text",
-      text: "testing",
+      type: 'text',
+      text: 'testing',
       x: 150,
       y: 200,
-      textDecoration: "underline",
+      textDecoration: 'underline',
     },
   });
 
   const deleteSelectedHandler = ({ key }) => {
-    if (["46", "Delete"].includes(String(key))) {
+    if (['46', 'Delete'].includes(String(key))) {
       deleteSelectedComponent();
     }
   };
 
-  useEventListener("keydown", deleteSelectedHandler);
+  useEventListener('keydown', deleteSelectedHandler);
 
   const generateRandomId = () => {
     let id = Math.floor(Math.random() * 10000);
@@ -79,10 +81,10 @@ function App() {
     const id = generateRandomId();
     const newComponents = { ...components };
     switch (type) {
-      case "text":
+      case 'text':
         newComponents[id] = { ...defaultText };
         break;
-      case "equation":
+      case 'equation':
         newComponents[id] = { ...defaultEquation };
         break;
     }
@@ -112,13 +114,11 @@ function App() {
         setComponents={setComponents}
         setSelected={setSelected}
         unselectComponentHandler={() => setSelected(0)}
-      />
-      <Toolbar
         tools={tools}
-        setComponents={(tool) => {
+        addComponent={(tool) => {
           createComponent(tool.component);
         }}
-      ></Toolbar>
+      />
     </>
   );
 }
