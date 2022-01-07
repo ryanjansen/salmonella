@@ -14,13 +14,19 @@ function App() {
       type: "Text",
       text: "First",
       x: 50,
-      y: 100
+      y: 100,
+      fontFamily: "Calibri",
+      fontSize: 28
     },
     2: {
       type: "Text",
       text: "testing",
       x: 150,
-      y: 200
+      y: 200,
+      textDecoration: "underline"
+    },
+    3: {
+      type: "Equation"
     }
   });
 
@@ -30,7 +36,7 @@ function App() {
 
   return (
     <>
-      <Canvas components={components} />
+      <Canvas components={components} setComponents={setComponents} />
       <Toolbar
         tools={tools}
         setComponents={(tool) => {
