@@ -5,7 +5,7 @@ const scaleBy = 1.01;
 
 function Canvas({ components }) {
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight}>
+    <Stage width={window.innerWidth} height={window.innerHeight} draggable>
       <Layer>
         {Object.entries(components).map(([key, value]) => {
           switch (value.type) {
