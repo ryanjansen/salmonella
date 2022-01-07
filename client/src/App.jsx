@@ -29,26 +29,22 @@ function App() {
     { icon: EditorTextIcon, component: "text" },
     { icon: EditorEquationIcon, component: "equation" },
   ]);
+  useEffect(() => {
+    if (localStorage.getItem("components") === null) {
+      localStorage.setItem(
+        "components",
+        JSON.stringify({
+          0: {},
+        })
+      );
+    }
+  }, []);
   const [selected, setSelected] = useState(0);
-  const [components, setComponents] = useState({
-    0: {
-      // unselected
-    },
-    1: {
-      type: "text",
-      text: "First",
-      x: 50,
-      y: 100,
-      fontFamily: "Calibri",
-      fontSize: 28,
-    },
-    2: {
-      type: "text",
-      text: "testing",
-      x: 150,
-      y: 200,
-      textDecoration: "underline",
-    },
+  const [components, setComponents] = useState(
+    JSON.parse(localStorage.getItem("components")) ?? { 0: {} }
+  );
+  useEffect(() => {
+    localStorage.setItem("components", JSON.stringify(components));
   });
 
   const deleteSelectedHandler = ({ key }) => {

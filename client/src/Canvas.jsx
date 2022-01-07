@@ -6,9 +6,12 @@ import {
   isTouchEnabled,
 } from "./utils/StageZoomHandlers";
 import EquationImage from "./components/Equation/EquationImage";
-import { DrawSettings } from "./components/DrawSettings";
-import Toolbar from "./components/Toolbar";
 import TextComponent from "./components/TextComponent";
+import { DrawSettings } from "./components/DrawSettings";
+import { DivideAnim } from "./components/Animations/DivideAnim";
+import { Video } from "./components/Animations/Video";
+import Toolbar from "./components/Toolbar";
+import styles from "./styles/Canvas.module.css";
 
 const scaleBy = 1.04;
 
@@ -149,7 +152,7 @@ function Canvas({
   // Drawing
   const [tool, setTool] = React.useState("pen");
   const [lines, setlines] = React.useState([]);
-  const [width, setWidth] = React.useState(5);
+  const [width, setWidth] = React.useState(7);
   const [color, setColor] = React.useState("#df4b26");
   const isDrawing = React.useRef(false);
 
@@ -262,8 +265,9 @@ function Canvas({
 
   return (
     <div>
-      <Toolbar tools={tools} addComponent={addComponent} />
-      <DrawSettings
+      <Toolbar
+        tools={tools}
+        addComponent={addComponent}
         setDrawMode={setDrawMode}
         setlines={setlines}
         lines={lines}
@@ -276,6 +280,13 @@ function Canvas({
         color={color}
       />
       <Stage
+        className={`${
+          drawMode
+            ? tool === "pen"
+              ? styles.penCursor
+              : styles.eraseCursor
+            : ""
+        }`}
         width={window.innerWidth}
         height={window.innerHeight}
         draggable={!isTouchEnabled() && !drawMode}
@@ -291,6 +302,7 @@ function Canvas({
           {Object.entries(components).map(([id, component]) => {
             return renderComponent(id, component);
           })}
+          <Text text="dwebug" onMouseDown={(e) => console.log(components)} />
           {lines.map((line, i) => (
             <Line
               key={i}
@@ -309,5 +321,11 @@ function Canvas({
     </div>
   );
 }
+/*
+          <Video src="https://i.imgur.com/keWs2pk.mp4"/>
+          
+        </Layer>
+        <DivideAnim />
+*/
 
 export default Canvas;
