@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styles from '../styles/Toolbar.module.css';
+import React, { useState } from "react";
+import styles from "../styles/Toolbar.module.css";
 
 function Toolbar({
   tools,
@@ -15,6 +15,8 @@ function Toolbar({
   color,
   setColor,
 }) {
+  console.log("sytles: ", styles);
+
   return (
     <div className={styles.toolbar}>
       {tools.map((tool, index) => (

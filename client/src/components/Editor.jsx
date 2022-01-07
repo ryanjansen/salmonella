@@ -1,6 +1,7 @@
 import React from "react";
 import EquationEditor from "./Equation/EquationEditor";
 import { TextEditor } from "./TextEditor";
+import styles from "../styles/Editor.module.css";
 
 export const Editor = ({ selected, getAttribute, setAttribute }) => {
   const renderEditor = (type) => {
@@ -24,7 +25,7 @@ export const Editor = ({ selected, getAttribute, setAttribute }) => {
   };
 
   return (
-    <div style={styles.editor}>
+    <div className={styles.editor}>
       Currently Selected Component:
       <div>
         ID: {selected}
@@ -38,12 +39,4 @@ export const Editor = ({ selected, getAttribute, setAttribute }) => {
       {renderEditor(getAttribute("type"))}
     </div>
   );
-};
-
-const styles = {
-  editor: {
-    position: "fixed",
-    top: 0,
-    right: 0,
-  },
 };

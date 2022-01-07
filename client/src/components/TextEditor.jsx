@@ -3,6 +3,7 @@ import BoldButton from "../icons/bold.svg";
 import ItalicsButton from "../icons/italics.svg";
 import StrikeThroughButton from "../icons/strikethrough.svg";
 import UnderlineButton from "../icons/underline.svg";
+import styles from "../styles/TextEditor.module.css";
 
 export const TextEditor = ({ getAttribute, setAttribute }) => {
   const boldbut = () => {
@@ -54,53 +55,53 @@ export const TextEditor = ({ getAttribute, setAttribute }) => {
   };
 
   return (
-    <div style={styles.textEditor}>
+    <div className={styles.texteditor}>
       TEXT EDITOR
       <input
         value={getAttribute("text")}
         onChange={(e) => setAttribute("text", e.target.value)}
       ></input>
-      <div style={styles.quickButtons}>
-        <button
-          style={
-            getAttribute("fontStyle").includes("bold")
-              ? styles.quickButtonActive
-              : styles.quickButton
+      <div className={styles.texteditor__quickButtons}>
+        <img
+          className={
+            getAttribute("fontStyle")?.includes("bold")
+              ? styles.texteditor__quickButtonActive
+              : styles.texteditor__quickButton
           }
           onClick={() => setAttribute("fontStyle", boldbut())}
-        >
-          <img src={BoldButton} alt="Bold Button"></img>
-        </button>
-        <button
-          style={
-            getAttribute("fontStyle").includes("italic")
-              ? styles.quickButtonActive
-              : styles.quickButton
+          src={BoldButton}
+          alt="Bold Button"
+        />
+        <img
+          className={
+            getAttribute("fontStyle")?.includes("italic")
+              ? styles.texteditor__quickButtonActive
+              : styles.texteditor__quickButton
           }
           onClick={() => setAttribute("fontStyle", italicbut())}
-        >
-          <img src={ItalicsButton} alt="Italics Button"></img>
-        </button>
-        <button
-          style={
-            getAttribute("textDecoration").includes("underline")
-              ? styles.quickButtonActive
-              : styles.quickButton
+          src={ItalicsButton}
+          alt="Italics Button"
+        />
+        <img
+          className={
+            getAttribute("textDecoration")?.includes("underline")
+              ? styles.texteditor__quickButtonActive
+              : styles.texteditor__quickButton
           }
           onClick={() => setAttribute("textDecoration", decbut("underline"))}
-        >
-          <img src={UnderlineButton} alt="Underline Button"></img>
-        </button>
-        <button
-          style={
-            getAttribute("textDecoration").includes("line-through")
-              ? styles.quickButtonActive
-              : styles.quickButton
+          src={UnderlineButton}
+          alt="Underline Button"
+        />
+        <img
+          className={
+            getAttribute("textDecoration")?.includes("line-through")
+              ? styles.texteditor__quickButtonActive
+              : styles.texteditor__quickButton
           }
           onClick={() => setAttribute("textDecoration", decbut("line-through"))}
-        >
-          <img src={StrikeThroughButton} alt="Strikethrough Button"></img>
-        </button>
+          src={StrikeThroughButton}
+          alt="Strikethrough Button"
+        ></img>
       </div>
       <label htmlFor="fontsize">FONT SIZE</label>
       <input
@@ -122,22 +123,4 @@ export const TextEditor = ({ getAttribute, setAttribute }) => {
       ></input>
     </div>
   );
-};
-
-const styles = {
-  textEditor: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  quickButtons: {
-    display: "flex",
-    justifyContent: "space-evenly",
-  },
-  quickButton: {
-    backgroundColor: "white",
-    borderRadius: "5px",
-  },
-  quickButtonActive: {
-    backgroundColor: "AliceBlue",
-  },
 };
