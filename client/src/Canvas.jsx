@@ -8,6 +8,7 @@ import {
 import EquationImage from './components/Equation/EquationImage';
 import { DrawSettings } from './components/DrawSettings';
 import Toolbar from './components/Toolbar';
+import styles from './styles/Canvas.module.css';
 
 const scaleBy = 1.04;
 
@@ -137,7 +138,7 @@ function Canvas({
   // Drawing
   const [tool, setTool] = React.useState('pen');
   const [lines, setlines] = React.useState([]);
-  const [width, setWidth] = React.useState(5);
+  const [width, setWidth] = React.useState(7);
   const [color, setColor] = React.useState('#df4b26');
   const isDrawing = React.useRef(false);
 
@@ -238,8 +239,9 @@ function Canvas({
 
   return (
     <div>
-      <Toolbar tools={tools} addComponent={addComponent} />
-      <DrawSettings
+      <Toolbar
+        tools={tools}
+        addComponent={addComponent}
         setDrawMode={setDrawMode}
         setlines={setlines}
         lines={lines}
@@ -252,6 +254,13 @@ function Canvas({
         color={color}
       />
       <Stage
+        className={`${
+          drawMode
+            ? tool === 'pen'
+              ? styles.penCursor
+              : styles.eraseCursor
+            : ''
+        }`}
         width={window.innerWidth}
         height={window.innerHeight}
         draggable={!isTouchEnabled() && !drawMode}

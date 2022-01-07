@@ -1,0 +1,7 @@
+.penCursor {
+  cursor: url("../icons/pen-cursor.png") 3 27, auto;
+}
+
+.eraseCursor {
+  cursor: url("../icons/erase-cursor.png") 10 27, auto;
+}
