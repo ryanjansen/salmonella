@@ -9,7 +9,12 @@ import {
 
 const scaleBy = 1.04;
 
-function Canvas({ components, setComponents, setSelected }) {
+function Canvas({
+  components,
+  setComponents,
+  setSelected,
+  unselectComponentHandler,
+}) {
   const stageRef = useRef(null);
   let lastCenter = null;
   let lastDist = 0;
@@ -120,6 +125,8 @@ function Canvas({ components, setComponents, setSelected }) {
   };
 
   const onDblClick = (key) => {
+    if (e.evt.defaultPrevented) return;
+    e.evt.preventDefault();
     setSelected(key);
   };
 
@@ -135,6 +142,10 @@ function Canvas({ components, setComponents, setSelected }) {
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
             onDblClick={() => onDblClick(id)}
+            onMouseDown={(e) => {
+              if (e.evt.defaultPrevented) return;
+              e.evt.preventDefault();
+            }}
             text={component.text ?? 'text'}
             x={component.x}
             y={component.y}
@@ -157,6 +168,11 @@ function Canvas({ components, setComponents, setSelected }) {
       onTouchMove={handleTouch}
       onTouchEnd={handleTouchEnd}
       ref={stageRef}
+      onMouseDown={(e) => {
+        if (e.evt.defaultPrevented) return;
+        e.evt.preventDefault();
+        unselectComponentHandler();
+      }}
     >
       <Layer>
         {Object.entries(components).map(([id, component]) => {
