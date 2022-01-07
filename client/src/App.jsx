@@ -27,7 +27,7 @@ function App() {
     { icon: "Text", component: "text" },
     { icon: "Equation", component: "equation" },
   ]);
-  const [selected, setSelected] = useState(-1);
+  const [selected, setSelected] = useState(1);
   const [components, setComponents] = useState({
     1: {
       type: "text",
@@ -71,12 +71,13 @@ function App() {
   };
 
   const getAttribute = (attribute) => {
+    console.log(components[selected]["type"]);
     return components[selected][attribute];
   };
 
   const setAttribute = (attribute, value) => {
     const newComponents = { ...components };
-    newComponents[selected] = value;
+    newComponents[selected][attribute] = value;
     setComponents(newComponents);
   };
 
@@ -85,10 +86,10 @@ function App() {
     const newComponents = { ...components };
     switch (type) {
       case "text":
-        newComponents[id] = defaultText;
+        newComponents[id] = Object.assign({}, defaultText);
         break;
       case "equation":
-        newComponents[id] = defaultEquation;
+        newComponents[id] = Object.assign({}, defaultEquation);
         break;
     }
     setComponents(newComponents);
@@ -105,7 +106,7 @@ function App() {
 
   return (
     <>
-      <Editor selected={selected} />
+      <Editor selected={selected} getAttribute={getAttribute} setAttribute={setAttribute}/>
       <Canvas
         components={components}
         setComponents={setComponents}
