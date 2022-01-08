@@ -147,7 +147,6 @@ function App() {
 
   return (
     <>
-      <button onClick={()=>createComponent("text")}>l</button>
       <Canvas
         components={components}
         setComponents={setComponents}
