@@ -151,14 +151,16 @@ function Canvas({
   };
 
   // Drawing
-  const [tool, setTool] = React.useState('pen');
-  const [lines, setlines] = React.useState(JSON.parse(localStorage.getItem('lines')) ?? []);
+  const [tool, setTool] = React.useState("pen");
+  const [lines, setlines] = React.useState(
+    JSON.parse(localStorage.getItem("lines")) ?? []
+  );
   const [width, setWidth] = React.useState(7);
   const [color, setColor] = React.useState("#df4b26");
   const isDrawing = React.useRef(false);
-  useEffect(()=> {
-    localStorage.setItem('lines', JSON.stringify(lines));
-  })
+  useEffect(() => {
+    localStorage.setItem("lines", JSON.stringify(lines));
+  });
 
   function getRelativePointerPosition(node) {
     // the function will return pointer position relative to the passed node
@@ -239,7 +241,7 @@ function Canvas({
       case "equation":
         return (
           <EquationImage
-          selected={selected}
+            selected={selected}
             key={id}
             latex={component.latex}
             id={id}
@@ -321,13 +323,14 @@ function Canvas({
               }
             />
           ))}
+
+          {/* <Video src="http://localhost:8000/static/SquareToCircle.mp4" /> */}
         </Layer>
       </Stage>
     </div>
   );
 }
 /*
-          <Video src="https://i.imgur.com/keWs2pk.mp4"/>
           
         </Layer>
         <DivideAnim />

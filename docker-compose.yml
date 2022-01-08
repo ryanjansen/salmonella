@@ -12,6 +12,11 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./static:/manim/static
+      - ./media:/manim/media
       
   client:
     build:

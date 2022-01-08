@@ -58,7 +58,7 @@ export const TextEditor = ({ getAttribute, setAttribute }) => {
     <div className={styles.texteditor}>
       <b>Edit:</b>
       <div className={styles.inputGroup}>
-        <label htmlFor="text">Font-Size: </label>
+        <label htmlFor="text">Text: </label>
         <input
           id="text"
           autoFocus
