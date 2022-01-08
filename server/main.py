@@ -5,10 +5,6 @@ from manim import *
 function = lambda x: x * x + 5
 
 class FunctionPlotIntegration(Scene):
-    def setup(self):
-        global function
-        self.function = function
-
     def construct(self):
         axes = Axes(
             x_range=[-10, 10.3, 1],
@@ -21,8 +17,11 @@ class FunctionPlotIntegration(Scene):
             },
             tips=False,
         )
+
+        def func(arr):
+            return np.cos(arr)
   
-        cos_graph = axes.plot(lambda x: np.fromfunction(self.function, (10, )), color=RED)
+        cos_graph = axes.plot(lambda x: func(x), color=RED)
 
         cos_label = axes.get_graph_label(cos_graph, label="\\cos(x)")
 
@@ -54,16 +53,20 @@ class FunctionPlotDifferentiation(Scene):
                 "numbers_with_elongated_ticks": np.arange(-10, 10.01, 2),
             },
             tips=False,)
+        
+        def func(arr):
+            return np.cos(arr)
 
-        s_shape_graph = axes.plot(lambda x: np.cos(x), color=BLUE)
+        s_shape_graph = axes.plot(lambda x: func(x), color=BLUE)
 
         self.play(FadeIn(axes))
         self.play(Create(s_shape_graph))
 
         self.wait()
 
-        alpha = ValueTracker(0.0)  
+        alpha = ValueTracker(0.0)  # this is the value we're changing when animating
 
+        # function for drawing the tangent line
         draw_tangent = (lambda: 
             TangentLine(s_shape_graph, alpha.get_value(), 5, color=YELLOW))
 
