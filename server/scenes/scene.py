@@ -1,4 +1,5 @@
 from manim import *
+import numpy as np
 config.background_color = WHITE
 
 class CreateCircle(Scene):

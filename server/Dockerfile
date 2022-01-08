@@ -1,12 +1,12 @@
 # 
-FROM python:3.9
+FROM manimcommunity/manim:latest
+
+ENV PATH="/manim/.local/bin:${PATH}"
 
 # 
 WORKDIR /code
 
-RUN apt-get update
-RUN apt-get install libcairo2-dev libpango1.0-dev ffmpeg -y
-# 
+
 COPY ./requirements.txt /code/requirements.txt
 
 # 
@@ -16,4 +16,6 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 COPY . .
 
 # 
+EXPOSE 8000
+
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
