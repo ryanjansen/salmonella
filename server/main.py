@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from manim import *
+import subprocess
 
 function = lambda x: x * x + 5
 
@@ -86,8 +87,13 @@ app = FastAPI()
 
 app.mount("/static",  StaticFiles(directory="static"), name="static")
 
-@app.get("/integrate")
-async def integrate():
-  scene = FunctionPlotDifferentiation()
-  scene.render()
-  return { "src": "http://localhost:8000/static/videos/scene/480p15/CreateCircle.mp4"}
+@app.get("/differentiate")
+async def differentiate():
+  subprocess.call(["manim", "-ql", "scenes/scene.py", "FunctionPlotDifferentiation"])
+  return { "src": "http://localhost:8000/static/videos/scene/480p15/FunctionPlotDifferentiation.mp4"}
+
+
+@app.get("/integration")
+async def integration():
+  subprocess.call(["manim", "-ql", "scenes/scene.py", "FunctionPlotDifferentiation"])
+  return { "src": "http://localhost:8000/static/videos/scene/480p15/FunctionPlotIntegration.mp4"}

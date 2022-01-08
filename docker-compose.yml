@@ -15,7 +15,8 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ./static:/code/static
+      - ./static:/manim/static
+      - ./media:/manim/media
       
   client:
     build:

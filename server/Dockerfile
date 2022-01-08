@@ -4,7 +4,7 @@ FROM manimcommunity/manim:latest
 ENV PATH="/manim/.local/bin:${PATH}"
 
 # 
-WORKDIR /code
+WORKDIR /manim
 
 
 COPY ./requirements.txt /code/requirements.txt
