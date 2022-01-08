@@ -5,7 +5,9 @@ import ClearIcon from "../icons/editor-clear.png";
 import UndoIcon from "../icons/editor-undo.png";
 import EraseIcon from "../icons/editor-erase.png";
 import PenIcon from "../icons/editor-pen.png";
+import AnimateIcon from "../icons/animate.png";
 import ColorPicker from "./ColorPicker";
+import AnimationPicker from "./AnimationPicker";
 
 function Toolbar({
   tools,
@@ -22,6 +24,8 @@ function Toolbar({
   setColor,
 }) {
   const [showColorPicker, setShowColorPicker] = useState(false);
+  const [showAnimationPicker, setShowAnimationPicker] = useState(false);
+
   const undoHandler = () => {
     if (lines.length > 0) {
       const newlines = [...lines];
@@ -95,6 +99,20 @@ function Toolbar({
       </div>
       <div onClick={undoHandler}>
         <img className={styles.toolbar__icon} alt="undo icon" src={UndoIcon} />
+      </div>
+      <div className={styles.toolbar__divider}></div>
+      <div style={{ position: "relative" }}>
+        <AnimationPicker
+          show={showAnimationPicker}
+          onClickOutside={() => setShowAnimationPicker(!showAnimationPicker)}
+        />
+        <div onClick={() => setlines([])}>
+          <img
+            className={styles.toolbar__icon}
+            alt="clear icon"
+            src={AnimateIcon}
+          />
+        </div>
       </div>
     </div>
   );

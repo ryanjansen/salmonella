@@ -2,7 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import Canvas from "./Canvas";
 import Toolbar from "./components/Toolbar";
 import { Editor } from "./components/Editor";
-import { defaultText, defaultEquation } from "./DefaultComponents";
+import {
+  defaultText,
+  defaultEquation,
+  defaultAnimation,
+} from "./DefaultComponents";
 import EditorTextIcon from "./icons/editor-text.png";
 import EditorEquationIcon from "./icons/editor-equation.png";
 
@@ -32,7 +36,7 @@ function App() {
   const [selected, setSelected] = useState(0);
   useEffect(() => {
     async function sleep(time) {
-      await new Promise(r => setTimeout(r, time));
+      await new Promise((r) => setTimeout(r, time));
     }
     if (localStorage.getItem("components") === null) {
       localStorage.setItem(
@@ -50,13 +54,14 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => 
-    
-    Object.entries(components).forEach(([key, component]) => {
-      setSelected(key)
-    })
-    , 700)
-  }, [])
+    setTimeout(
+      () =>
+        Object.entries(components).forEach(([key, component]) => {
+          setSelected(key);
+        }),
+      700
+    );
+  }, []);
   const [components, setComponents] = useState(
     JSON.parse(localStorage.getItem("components")) ?? { 0: {} }
   );
