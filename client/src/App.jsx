@@ -72,6 +72,7 @@ function App() {
 
   useEventListener("keydown", deleteSelectedHandler);
 
+
   const generateRandomId = () => {
     let id = Math.floor(Math.random() * 10000);
     while (id in components) {
@@ -102,8 +103,8 @@ function App() {
         break;
     }
     // Focus new component
-    setSelected(id);
     setComponents(newComponents);
+    setSelected(id);
   };
 
   const deleteSelectedComponent = () => {
@@ -115,8 +116,33 @@ function App() {
     setComponents(newComponents);
   };
 
+  // Keyboard Shortcuts
+
+  // shift + f - focus mode
+  const [focusMode, setFocusMode] = React.useState(false);
+
+  const focusModeHandler = (e) => {
+    //e.preventDefault();
+    if ((e.shiftKey) && e.code == "KeyF") {
+      setFocusMode(!focusMode);
+    }
+  }
+  useEventListener('keydown', focusModeHandler);
+
+  const quickCreateHandler = (e) => {
+    if (e.shiftKey && e.ctrlKey && e.code == "KeyT") {
+      createComponent("text");
+    } else if (e.shiftKey && e.ctrlKey && e.code == "KeyE") {
+      createComponent("equation");
+    }
+  }
+  useEventListener('keydown', quickCreateHandler);
+
+
+
   return (
     <>
+      <button onClick={()=>createComponent("text")}>l</button>
       <Canvas
         components={components}
         setComponents={setComponents}
@@ -127,12 +153,16 @@ function App() {
         addComponent={(tool) => {
           createComponent(tool.component);
         }}
+        focusMode={focusMode}
       />
+      {!focusMode ?
       <Editor
         selected={selected}
         getAttribute={getAttribute}
         setAttribute={setAttribute}
       />
+      : null
+      }
     </>
   );
 }

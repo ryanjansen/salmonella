@@ -61,6 +61,7 @@ export const TextEditor = ({ getAttribute, setAttribute }) => {
         <label htmlFor="text">Font-Size: </label>
         <input
           id="text"
+          autoFocus
           value={getAttribute("text")}
           onChange={(e) => setAttribute("text", e.target.value)}
         ></input>

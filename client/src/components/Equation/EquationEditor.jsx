@@ -15,6 +15,7 @@ function EquationEditor({ setAttribute, getAttribute }) {
         }}
         id="equation-editor"
         style={{ fontSize: 32 }}
+        mathquillDidMount={mathField => mathField.focus()}
       />
     </div>
   );

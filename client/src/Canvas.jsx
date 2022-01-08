@@ -23,6 +23,7 @@ function Canvas({
   selected,
   setSelected,
   unselectComponentHandler,
+  focusMode
 }) {
   const stageRef = useRef(null);
   let lastCenter = null;
@@ -269,6 +270,7 @@ function Canvas({
 
   return (
     <div>
+      {!focusMode ?
       <Toolbar
         tools={tools}
         addComponent={addComponent}
@@ -282,7 +284,7 @@ function Canvas({
         width={width}
         tool={tool}
         color={color}
-      />
+      /> : null}
       <Stage
         className={`${
           drawMode
